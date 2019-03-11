@@ -34,7 +34,8 @@ To have launchd start zookeeper now and restart at login:
   brew services start zookeeper
 Or, if you don't want/need a background service you can just run:
   zkServer start
-  配置 /usr/local/etc/zookeeper/zoo.cfg
+  
+配置 /usr/local/etc/zookeeper/zoo.cfg
   
 创建topic:使用单个分区和只有一个副本创建一个名为“test”的topic
 /usr/local/bin/kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
@@ -44,7 +45,6 @@ Or, if you don't want/need a background service you can just run:
 
 生产
 /usr/local/bin/kafka-console-producer --broker-list localhost:9092 --topic test
-XXX 
 
 消费
 /usr/local/bin/kafka-console-consumer --bootstrap-server localhost:9092 --topic test --from-beginning
