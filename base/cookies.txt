@@ -1,0 +1,9 @@
+# Netscape HTTP Cookie File
+# http://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file!  Do not edit.
+
+bbs.chinaunix.net	FALSE	/	FALSE		bbs_chinaunix	cubbs3
+bbs.chinaunix.net	FALSE	/	FALSE	1552446343	ndfU_2132_lastact	1552359706%09member.php%09logging
+bbs.chinaunix.net	FALSE	/	FALSE	1554951943	ndfU_2132_lastvisit	1552356106
+bbs.chinaunix.net	FALSE	/	FALSE	1554951943	ndfU_2132_saltkey	Gl4S46t4
+bbs.chinaunix.net	FALSE	/	FALSE	1552446343	ndfU_2132_sid	H8N4EE
