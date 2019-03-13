@@ -44,6 +44,7 @@ if __name__ == '__main__':
     # downLoadPic("http://downdb.51voa.com/201812/science-2018-gene-editing-private-space-travel-top-list.mp3","/Users/jiaxiaopeng/py3test/science-2018-gene-editing-private-space-travel-top-list.mp3")
     # downloadFile1()
     # downloadFile2()
+    dowload2()
 
 
 

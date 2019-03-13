@@ -92,6 +92,6 @@ if __name__ == '__main__':
             content = soup.select_one('#content').get_text()
             find = mp3.rfind('/')
             local = os.path.join('/Users/jiaxiaopeng/VOA_Special_English/Technology Report', mp3[find + 1:])
-            urllib.request.urlretrieve(url, local)
+            urllib.request.urlretrieve(mp3, local)
             insertDb(en_tag='Technology Report',cn_tag='科技报道',title=title,href=mp3, content=content,date=replace,create_time=time.localtime())
 
