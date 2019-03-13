@@ -1,6 +1,7 @@
 import urllib.request
 import urllib.parse
 import http.cookiejar
+import urllib.error
 
 def get_page():
     url = 'http://www.baidu.com/'
@@ -82,5 +83,29 @@ def proxy_test():
     page_source = response.read().decode('utf-8')
     print(page_source)
 
+
+def get_page5():
+    url = "http://tieba.baidu.com"
+    params = {
+        'name': '浮生六记',
+        'author': '沈复'
+    }
+    data = bytes(urllib.parse.urlencode(params), encoding='utf8')
+    #利用 urlopen() 方法可以发起简单的请求,如果需要构建一个完整的请求，可以使用更强大的Request类来构建一个请求
+    # response = urllib.request.urlopen(url,timeout=1,data=data)
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+    }
+    try:
+        res = urllib.request.Request(url=url, headers=headers)
+        response = urllib.request.urlopen(res)
+        html = response.read()  # 获取到页面的源代码
+        print(html.decode('utf-8'))  # 转化为 utf-8 编码
+        print(response.getcode())
+    except urllib.error.URLError as e:
+        print('code: ' + e.code + '\n')
+        print('reason: ' + e.reason + '\n')
+        print('headers: ' + e.headers + '\n')
+
 if __name__ == '__main__':
-    proxy_test()
+    get_page5()

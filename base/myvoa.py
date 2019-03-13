@@ -1,15 +1,38 @@
 
-from pyquery import PyQuery as pq
+# from pyquery import PyQuery as pq
 from bs4 import BeautifulSoup
 import urllib.request
 
-url = 'http://m.51voa.com/south-american-group-facing-hard-times-81219'
-# response = urllib.request.urlopen(url)
-# print(response.read().decode('utf-8'))
+url = 'http://m.51voa.com/hollywood-stars-executives-charged-in-college-admission-plot-81613'
+response = urllib.request.urlopen(url)
+getcode = response.getcode()
+
+if getcode == 200:
+    print("request ok")
+    pass
+content = response.read().decode('utf-8')
 
 #Beautiful Soup支持Python标准库中的HTML解析器,还支持一些第三方的解析器
 #lxml 解析器更加强大，速度更快，推荐安装
-# soup = BeautifulSoup(response.read().decode('utf-8'), 'lxml')
+soup = BeautifulSoup(content, 'lxml')
+category = soup.select('#nav a')[2].string
+print("category",category)
+title = soup.select_one('#title')
+print("title:",title.string)
+# content = soup.select_one("#ShowEN")
+# print(content.get_text())
+src = soup.select('div.test li div a')
+next = src[0].get("href")
+src = src[1].get("href")
+
+print(next)
+print(src)
+baseUrl = 'http://m.51voa.com/'
+urljoin = urllib.request.urljoin(baseUrl, next)
+print(urljoin)
+# print("next:",soup.select('script')[2])
+# print("next:",soup.select('script')[2])
+
 
 #1.获取名称
 # 通过这种soup.标签名,如果文档中有多个这样的标签，返回的结果是第一个标签的内容

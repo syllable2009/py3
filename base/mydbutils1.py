@@ -1,4 +1,4 @@
-import pymysql
+#
 from DBUtils.PooledDB import PooledDB, SharedDBConnection
 from DBUtils.PersistentDB import PersistentDB, PersistentDBError, NotSupportedError
 import json

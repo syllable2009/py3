@@ -7,7 +7,7 @@ def get_time():
      '获取时间'
      return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
-class DBUtils(object):
+class MyDbUtils(object):
     '''
     简单的数据库操作类
     '''
@@ -54,7 +54,7 @@ if __name__ == "__main__":
          "port" : 3306,
          "charset" : 'utf8'
      }
-     DB = DBUtils(**config)
+     DB = MyDbUtils(**config)
 
      cur = DB.conn.cursor()
      SQL = "select * from user_t"
