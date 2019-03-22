@@ -45,8 +45,8 @@ for tag in soup.find_all(has_class_and_no_id):
 # 标签名查找：soup.select('h3 a')取h3标签下的a标签；等价于soup.select('h3 > a')
 
 print(soup.select('p')[0])
-print(soup.select('.story'))
-print(soup.select('#link3'))
+print(soup.select('.story')) #类名前加.
+print(soup.select('#link3')) #id名前加#
 print("-----------")
 for i in soup.select('p a'):
     # text取内容时返回的是str字符串
