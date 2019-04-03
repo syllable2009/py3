@@ -5,7 +5,7 @@ import time
 import os
 
 max_page_reg=re.compile(u'<div class="content-page"><span class="page-ch">.*?(\d+).*?</span>')
-root_dir = '/Users/jiaxiaopeng/mm131/xinggan/'
+root_dir = '/Users/jiaxiaopeng/mm131/xiaohua/'
 host='http://www.mm131.com'
 headers={
     'Referer':'http://www.mm131.com/'
@@ -13,11 +13,12 @@ headers={
     }
 parent='mm131'
 list_pattern={
-        u'性感美女':{'page1':'/xinggan/','page':'/xinggan/list_6_{page}.html','slug':'xinggan'}
-        # ,u'清纯美女':{'page1':'/qingchun/','page':'/qingchun/list_1_{page}.html','slug':'qingchun'}
-        # ,u'大学校花':{'page1':'/xiaohua/','page':'/xiaohua/list_2_{page}.html','slug':'xiaohua'}
-        # ,u'性感车模':{'page1':'/chemo/','page':'/chemo/list_3_{page}.html','slug':'chemo'}
-        # ,u'明星写真':{'page1':'/mingxing/','page':'/mingxing/list_5_{page}.html','slug':'mingxing'},
+        # u'性感美女':{'page1':'/xinggan/','page':'/xinggan/list_6_{page}.html','slug':'xinggan'},
+        # u'清纯美女':{'page1':'/qingchun/','page':'/qingchun/list_1_{page}.html','slug':'qingchun'}
+        # ,
+    # u'大学校花':{'page1':'/xiaohua/','page':'/xiaohua/list_2_{page}.html','slug':'xiaohua'},
+    #     u'性感车模':{'page1':'/chemo/','page':'/chemo/list_3_{page}.html','slug':'chemo'},
+        u'明星写真':{'page1':'/mingxing/','page':'/mingxing/list_5_{page}.html','slug':'mingxing'},
         # u'旗袍美女':{'page1':'/qipao/','page':'/qipao/list_4_{page}.html','slug':'qipao'}
         }
 cate_dict={}
@@ -115,17 +116,38 @@ def handle_page(url,alt):
     # r = requests.get(url, headers=headers)
     # soup = BeautifulSoup(r.content, 'lxml')
 
+
+
+last_page = [7,8,9]
+
+##xingan 4877尤物少女卓娅祺女仆装狐媚模样撩人尤物少女卓娅祺女仆装狐
+##xingchun 4654靓丽少女楚楚粉嫩面容皎白胴体迷人
+##meinvxiaohua 2001 重庆大学超级美女校花米妮大萌萌
+## chemo 3095 尤物车模青树酥胸翘臀叫人血脉偾张
+## qipao 2288 秀人艾莉梅花旗袍白内内霸气外漏
+## mingxing 2016
+
+
 if __name__ == '__main__':
-    for key in list_pattern:
-        # print("key",key)
-        # cate_dict[list_pattern[key]['slug']]=key
-        index_page = host+list_pattern[key]['page1']
-        # get_page_list(index_page)
-        print("index",index_page)
-        max_page = get_max_page(index_page)
-        for page in range(86,max_page+1):
-            page_list = host+list_pattern[key]['page'].format(page=page)
-            get_page_list(page_list)
+    # for key in list_pattern:
+    #     # print("key",key)
+    #     # cate_dict[list_pattern[key]['slug']]=key
+    #     index_page = host+list_pattern[key]['page1']
+    #     get_page_list(index_page)
+    #     print("index",index_page)
+    #     max_page = get_max_page(index_page)
+    #     for page in range(2,max_page+1):
+    #         page_list = host+list_pattern[key]['page'].format(page=page)
+    #         get_page_list(page_list)
+    last_url = 'http://www.mm131.com/xinggan/{}.html'
+    last_url = 'http://www.mm131.com/xiaohua/{}.html'
+    for key in last_page:
+        url_format = last_url.format(key)
+        res = requests.get(url_format, headers=headers)
+        soup = BeautifulSoup(res.content.decode('gbk'), 'lxml')
+        alt = soup.select_one('body div.content h5')
+        handle_page(url_format,alt.string)
+        jpg = soup.select_one('body div.content div.content-pic a img')
 
 
 

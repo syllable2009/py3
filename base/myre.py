@@ -64,6 +64,6 @@ def rematch():       #只在字符串开头位置开始匹配，返回MatchObjec
     print(re.match('abc', 'abcabcsldkledklsabcd').group())  #abc
 
 
-
+#*,+,?都是贪婪匹配，也就是尽可能的匹配 后面加？使其变成惰性匹配
 
 

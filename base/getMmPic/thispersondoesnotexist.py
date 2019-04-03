@@ -9,7 +9,7 @@ HEADERS = {
 }
 root_dir = '/Users/jiaxiaopeng/ai-photo/'
 pic_src = 'https://thispersondoesnotexist.com/image'
-i = 4427
+i = 8991
 while True:
     i += 1
     img = requests.get(pic_src, headers=HEADERS, timeout=60)
