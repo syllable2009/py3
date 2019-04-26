@@ -33,3 +33,6 @@ conn.close()
 mp3 = 'http://downdb.51voa.com/201903/as-web-turns-30-creator-calls-for-big-changes-to-make-it-better.mp3';
 find = mp3.rfind('/')
 print(mp3[find+1:])
+
+import threading
+threading.start_new
