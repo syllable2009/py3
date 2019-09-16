@@ -25,3 +25,13 @@ args = sys.argv
 print(args)
 
 test()
+# 把所有的值放在内存中，它是实时地生成数据
+mygenerator = [x*x for x in range(3)]
+print(mygenerator)
+# 返回的是个生成器,使用for进行迭代的时候才去执行
+mygenerator = (x*x for x in range(3))
+print(mygenerator)
+
+import itertools
+
+

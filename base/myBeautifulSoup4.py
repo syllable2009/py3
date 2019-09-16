@@ -1,9 +1,10 @@
 from bs4 import BeautifulSoup
-
+import re
 html = """  
 <html><head><title>The Dormouse's story</title></head>  
 <body>  
 <p class="title" name="dromouse"><b>The Dormouse's story</b></p>  
+<p class="title" name="dromouse"><b>The Dormouse's story2</b></p>  
 <p class="story">Once upon a time there were three little sisters; and their names were  
 <a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and  
 <a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;  
@@ -16,21 +17,46 @@ soup = BeautifulSoup(html, "lxml")
 # print(soup, type(soup))
 #获取标签Tag：soup.'标签名'，就可以匹配出第一个该标签，它将会把第一次出现的该标签完整的返回
 print(soup.p)
-print(type(soup.p))
+# print(type(soup.p))
 print(soup.p['class'])   # 没有该属性会报错
 print(soup.p.attrs)     # 输出标签的属性和值
 print(soup.p.get('id'))    # 推荐使用get取属性,没有返回None
+
+abcSoup = soup.find(name="p", attrs={"class":"title"})
+print("abcSoup:{}".format(abcSoup))
+
+abcSouplist = soup.find_all(name="p", attrs={"class":re.compile(r"title(\s\w+)?")})
+print("abcSouplist:{}".format(abcSouplist))
 
 #字符串：soup.find_all('p')  获取所有的P标签，返回一个列表或空列表，soup.findl('p')只返回一个或者None，类型为'bs4.element.Tag'
 #列表：find_all方法也能接受列表参数，BeautifulSoup会将与列表中任一元素匹配的内容返回
 
 plist = soup.find_all(['p'],class_='story')
-print(type(plist))
-print(plist)
+# print(type(plist))
+# print(plist)
 
 # 正则表达式：需要导入re，再用re.compile()根据包含的正则表达式的字符串创建模式对象
+#[abc]     a、b 或 c
+#[^abc]   任何字符，除了 a、b 或 c（否定
+#[a-zA-Z] a到 z 或 A 到 Z，两头的字母包括在内（范围）
+#[a-d[m-p]]   a到 d 或 m 到 p：[a-dm-p]（并集）
+#[a-z&&[def]]       d、e 或 f（交集）
+#\d   数字：[0-9]
+#\D  非数字： [^0-9]
+#\s   空白字符：[\t\n\x0B\f\r]
+#\S   非空白字符：[^\s]
+#\w  单词字符：[a-zA-Z_0-9]
+#\W 非单词字符：[^\w]
+#\p{Lower}   小写字母字符：[a-z]
+#\p{Upper}  大写字母字符：[A-Z]
+#X?   X，一次或一次也没有
+#X*   X，零次或多次
+#X+  X，一次或多次
+#X{n}      X，恰好 n 次
+#X{n,}     X，至少 n 次
+#X{n,m}  X，至少 n 次，但是不超过 m 次
+
 print("-----------")
-import re
 for i in soup.find_all(re.compile('a')):
     print(i.text) # 会将a标签内的所有文本内容返回
 print("-----------")
