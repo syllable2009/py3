@@ -80,8 +80,6 @@ def proxy_test():
     response = requests.get(url=url, headers=headers, proxies=proxy)
     print(response.text)
 
-if __name__ == '__main__':
-    proxy_test()
 
 def request_test6():
     headers = {}
@@ -104,3 +102,48 @@ def request_test6():
     for i in range(len(informationlist)):
         information = informationlist[i]
         print("{:^10}\t{:^6}\t{:^10}".format(information[0], information[1], information[2]))
+
+# 利用request上传文件
+def postfile():
+    files = {'file': open('1.py', 'rb')}
+    r = requests.post("http://httpbin.org/post", files=files)
+    print(r.text)
+
+# 利用request保持cookies
+def getCookies():
+    r = requests.get("https://www.baidu.com")
+    print(r.cookies)
+    for key, value in r.cookies.items():
+        print(key + '=' + value)
+def zhihuCookie():
+    headers = {
+        'Cookie': 'tgw_l7_route=e9ff3200fd05d0af15498c125aecf1a1; _zap=8965f710-bb58-4f90-b493-1f05b6403be3; _xsrf=CNYc6XGlPqIV0tuS2ZO1Wl9reugEhXKu; d_c0="AEAhgza4DxCPToqL_WDnYMMWIRN4Bgrda-M=|1568712830"; capsion_ticket="2|1:0|10:1568712835|14:capsion_ticket|44:MzE0OWZkNzFhNGJmNDMxYWE4MGI2YjlkZTg0MTdhODg=|2b4736ee3208971bb46c5d2f4fa7cb1a306c297209514a6e21b9fd1026ef0687"; z_c0="2|1:0|10:1568712849|4:z_c0|92:Mi4xMHA2OUFnQUFBQUFBUUNHRE5yZ1BFQ1lBQUFCZ0FsVk5rZlp0WGdBMS1XaW1sSnkwbjJ1bGZsS1NwOTcxMGJYOHVB|f25419803ff69811490f8766ca765787af94ce320a58d987e622cffeb7097e56"; tst=r',
+        'Host': 'www.zhihu.com',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36',
+    }
+    r = requests.get('https://www.zhihu.com', headers=headers)
+    print(r.text)
+
+def zhihuCookie2():
+    cookies = 'tgw_l7_route=e9ff3200fd05d0af15498c125aecf1a1; _zap=8965f710-bb58-4f90-b493-1f05b6403be3; _xsrf=CNYc6XGlPqIV0tuS2ZO1Wl9reugEhXKu; d_c0="AEAhgza4DxCPToqL_WDnYMMWIRN4Bgrda-M=|1568712830"; capsion_ticket="2|1:0|10:1568712835|14:capsion_ticket|44:MzE0OWZkNzFhNGJmNDMxYWE4MGI2YjlkZTg0MTdhODg=|2b4736ee3208971bb46c5d2f4fa7cb1a306c297209514a6e21b9fd1026ef0687"; z_c0="2|1:0|10:1568712849|4:z_c0|92:Mi4xMHA2OUFnQUFBQUFBUUNHRE5yZ1BFQ1lBQUFCZ0FsVk5rZlp0WGdBMS1XaW1sSnkwbjJ1bGZsS1NwOTcxMGJYOHVB|f25419803ff69811490f8766ca765787af94ce320a58d987e622cffeb7097e56"; tst=r'
+    jar = requests.cookies.RequestsCookieJar()
+    headers = {
+        'Host': 'www.zhihu.com',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36'
+    }
+    for cookie in cookies.split(';'):
+        key, value = cookie.split('=', 1)
+        jar.set(key, value)
+    r = requests.get("http://www.zhihu.com", cookies=jar, headers=headers)
+    # session = requests.Session()
+    # r = session.get("http://www.zhihu.com",headers = headers)
+    print(r.text)
+
+#利用session维持会话
+def session():
+    s = requests.Session()
+    s.get('http://httpbin.org/cookies/set/number/123456789')
+    r = s.get('http://httpbin.org/cookies')
+    print(r.text)
+if __name__ == '__main__':
+    zhihuCookie2()

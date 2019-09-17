@@ -16,3 +16,4 @@ pyinstaller -F -i /Users/jiaxiaopeng/App.ico hello.py
 -Python 使用 attrs 和 cattrs 实现面向对象编程
 -Python 中提供了汉字转拼音的库，名字叫做 PyPinyin，可以用于汉字注音、排序、检索等等场合
 -glom模块 处理结构化数据
+-Pandas易于使用的数据结构和数据分析工具
