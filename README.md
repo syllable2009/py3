@@ -17,3 +17,6 @@ pyinstaller -F -i /Users/jiaxiaopeng/App.ico hello.py
 -Python 中提供了汉字转拼音的库，名字叫做 PyPinyin，可以用于汉字注音、排序、检索等等场合
 -glom模块 处理结构化数据
 -Pandas易于使用的数据结构和数据分析工具
+-解析库
+-存储文件，TXT文件存储,JSON文件存储,CSV文件存储,MySQL存储
+    
