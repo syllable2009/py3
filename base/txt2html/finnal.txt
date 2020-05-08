@@ -1,0 +1,7 @@
+[{"label_id": [0, 11, 12], "image_id": "01dbd060b48994cd8a1aca1f1ebe7cf4febcdeb5.jpg"},
+
+{"label_id": [1, 11, 12], "image_id": "022efb13db1719182cd6868cda18c4da46cae862.jpg"},
+
+{"label_id": [2, 11, 12], "image_id": "03c31c963a11bc8684b4ac6016368365eaa01c30.jpg"},
+
+{"label_id": [3, 11, 12], "image_id": "11389364c084cacc011f6134ac5862735a188fd7.jpg"}]

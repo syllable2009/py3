@@ -146,4 +146,5 @@ def session():
     r = s.get('http://httpbin.org/cookies')
     print(r.text)
 if __name__ == '__main__':
-    zhihuCookie2()
+    # zhihuCookie2()
+    request_test()
