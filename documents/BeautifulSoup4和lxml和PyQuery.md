@@ -55,6 +55,11 @@ print(soup.select("head > title")) #直接子标签查找
 print(soup.select('a[href="http://example.com/elsie"]')) #通过属性查找
 
 
+def function(arg,*args,**kwargs):
+    print(arg,args,kwargs)
+
+function(6,7,8,9,a=1, b=2, c=3)
+
 PyQuery 是 Python 仿照 jQuery 的严格实现。语法与 jQuery 几乎完全相同。
 BeautifulSoup 用来解析 HTML 比较简单，API非常人性化，支持CSS选择器、Python标准库中的HTML解析器，也支持 lxml 的 XML解析器
 lxml是python的一个解析库，支持HTML和XML的解析，支持XPath解析方式，而且解析效率非常高
