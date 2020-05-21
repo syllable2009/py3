@@ -19,7 +19,7 @@ r.url # 实际请求的URL
 r.encoding #requests自动检测编码，可以使用encoding属性查看
 r.status_code
 r.text # 获取str文本
-r.r.content # 无论响应是文本还是二进制内容，我们都可以用content属性获得bytes对象
+r.content # 无论响应是文本还是二进制内容，我们都可以用content属性获得bytes对象content返回的是bytes，二级制型的数据。
 r.json() # requests的方便之处还在于，对于特定类型的响应，例如JSON，可以直接获取
 r.headers
 r.headers['Content-Type']

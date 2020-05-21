@@ -1,17 +1,28 @@
 import re
 
-#re.match() 总是从字符串“开头”去匹配，并返回匹配的字符串的match对象
+
+
 str1 = 'Hello World!'
-print(re.match(r'H',str1).group(0))
+#第一个字符是 r，表示 raw string 原生字符，意在声明字符串中间的特殊字符不用转义
+
+#re.match() 总是从字符串开头去匹配，并返回匹配的字符串的match对象
+print(re.match(r'He',str1).group(0))
 print(re.match(r'e',str1))
-
-#re.search()或re.findall()可以查找字符串任意部分的出现位置
+print('-------------')
+#compile
+pattern = re.compile(r'l', re.I) # re.I不区分大小写
+print(type(pattern))
+print('-------------')
 # re.search()函数将对整个字符串进行搜索，并返回第一个匹配的字符串的match对象
-print(re.search(r'l', str1))
-
+search = re.search(r'l', str1)
+print(type(search))
+print(search.group(0))
+print('-------------')
 #re.findall()函数将返回一个所有匹配的字符串的字符串列表
-print(re.findall(r'l',str1))
-
+findall = pattern.findall(str1) #re.search()或re.findall()可以查找字符串任意部分的出现位置
+print(type(findall))
+print(findall)
+print('-------------')
 #迭代方式返回匹配，可以使用 finditer() 方法来代替
 finditer = re.finditer(r'l', str1)
 for f in finditer:
@@ -37,6 +48,7 @@ for f in finditer:
 15 \w  #匹配任何字母数字字符：它相当于类[a-zA-Z0-9]
 16 \W  #匹配任何非数字字母字符：它相当于[^a-zA-Z0-9]
 17 \b  #匹配一个单词边界，也就是指单词和空格间的位置
+18 '[a-zA-Z0-9]' 匹配所有的大小写字母数字
 '''
 
 #常用的语法
