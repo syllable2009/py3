@@ -38,13 +38,29 @@ class File(object):
                 # print(row['name'], row['password'],row['status'])
                 print(list(row.values()))
 
-    # todo 保存json文件
-    def saveJsonFile(self):
-        pass
+    # 保存json文件
+    def saveJsonFile(self,_data,_fileUrl,_mode = 'w'):
+        with open(_fileUrl, _mode, encoding='utf-8') as f:
+            json.dump(_data, f)
 
-    def saveLine(self,dataline,_saveMethod,_indentNo):
-        with open(self._fileUrl,_saveMethod, encoding='utf-8') as file:
-            file.writerow(dataline+'\n')#indent 缩进字符个数
+    # 读json文件
+    def readJsonFile(self,_fileUrl,_mode = 'r'):
+        with open(_fileUrl, _mode) as f:
+            return json.load(f)
+
+    # 按行存文件
+    def saveLine(self,_data,_fileUrl,_mode = 'a',_indentNo = 0):
+        with open(_fileUrl,_mode, encoding='utf-8') as file:
+            file.write(str(_data).strip()+'\n')#indent 缩进字符个数
+
+    # 按行读文件
+    def readLine(self,_fileUrl,_mode = 'r'):
+        with open(_fileUrl, _mode) as f:
+            line = f.readline()
+            while line:
+                print(line, end='')  # 在 Python 3中使用
+                line = f.readline()
+
 
 if '__main__' == __name__:
     header = ['name', 'password', 'status']
@@ -67,4 +83,13 @@ if '__main__' == __name__:
     # file.writeCsvFileV('result.csv','w',header,_delimiter = ',');
     # file.writeCsvFileV('result.csv', 'a', dataV, _delimiter=',');
     # file.readCsvFileKV('result.csv','w',header,dataKV,_delimiter = ',')
-    file.readCsvFile('result.csv')
+    # file.readCsvFile('result.csv')
+    _data = {1: 'Kelsey', 2: 'Simy', 3: 'ybb', 4: 'Eric'}
+    # file.saveJsonFile(dataKV,'data.json','w')
+    # json_file = file.readJsonFile('data.json')
+    # print(type(json_file).__name__)
+    # print(json_file)
+
+    # file.saveLine(header,"data.txt",'a')
+    # file.readLine("data.txt")
+
