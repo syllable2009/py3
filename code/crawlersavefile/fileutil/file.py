@@ -15,7 +15,7 @@ class File(object):
             writer = csv.writer(f, delimiter=_delimiter)
             ifRows = False
             for i in dataline:
-                if (type(i).__name__ == 'list'):
+                if (type(i).__name__ in ['list','tuple']):
                     ifRows = True
                     break
             if ifRows:

@@ -18,4 +18,5 @@ class Craw(object):
         if r.status_code != 200:
             print('request {} state is {}'.format(r.url,r.status_code))
             return None
+        r.encoding = 'utf-8'
         return r.text
