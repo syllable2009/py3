@@ -4,6 +4,11 @@ import win32gui
 #一般句柄名称都是这个窗口的title。但很多时候我们不能准确的输入title，所以我们可以通过遍历所有窗口的句柄，然后找到自己想要的窗口句柄。
 #参考https://www.cnblogs.com/chenjy1225/p/12174889.html
 #https://www.sohu.com/a/349817428_120372431
+#https://www.cnblogs.com/reader/p/10111777.html
+#https://www.jianshu.com/p/7058c735bc96 PyUserInput
+# Pywinauto：PC端自动化工具
+
+
 hwnd_title = dict()
 
 
