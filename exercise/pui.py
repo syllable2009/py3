@@ -1,5 +1,7 @@
 from time import time, sleep
 
+#将函数作为参数传递
+
 def logger(msg=None):
     def run_time(func):
         def wrapper(*args, **kwargs):
