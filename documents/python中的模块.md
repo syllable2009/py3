@@ -11,3 +11,25 @@ def hello(count, name):
     """Simple program that greets NAME for a total of COUNT times."""
     for x in range(count):
         click.echo('Hello %s!' % name)
+        
+# goose3
+获取任何新闻文章或文章类型的网页，不仅提取文章的主体，而且还提取所有元数据和图片
+from goose3 import Goose
+from goose3.text import StopWordsChinese
+
+url  = 'http://news.china.com/socialgd/10000169/20180616/32537640_all.html'
+g = Goose({'stopwords_class': StopWordsChinese})
+article = g.extract(url=url)
+print(article.title)       
+print(article.meta_description) 
+print(article.cleaned_text[:150])
+print(article.top_image)
+
+# pytesseract
+ocr文字图片识别
+import pytesseract
+from PIL import Image
+
+image = Image.open('/Users/jiaxiaopeng/validCode.png')
+code = pytesseract.image_to_string(image, lang='chi_sim+eng')
+print(code)
