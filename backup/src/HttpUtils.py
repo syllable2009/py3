@@ -64,7 +64,7 @@ if __name__ == '__main__':
     # http.parseResult(http.myParse)
     # HttpUtils.download("",
     #                    "/Users/jiaxiaopeng/d.png")
-    url = 'https://message.corp.kuaishou.com/api/file/preview/ccfb7c2c-a30e-4baa-b828-59e357a3b0a5?fileSuffix=png';
+    url = 'https://';
     r = requests.get(url,headers=HttpUtils.headers2)
     with open("/Users/jiaxiaopeng/e.png", "wb") as code:
         code.write(r.content)
