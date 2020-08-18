@@ -71,10 +71,10 @@ if __name__ == '__main__':
  # thread1.join()
  # thread2.join()
  # print("退出主线程")
- # from concurrent.futures import ThreadPoolExecutor
- # pool = ThreadPoolExecutor(20)
- # for i in range(1, 5):
- #     pool.submit(moyu_time('小帅b' + str(i), 1, 3))
- queue_pool()
+ from concurrent.futures import ThreadPoolExecutor
+ pool = ThreadPoolExecutor(20)
+ for i in range(1, 5):
+     pool.submit(moyu_time('小帅b' + str(i), 1, 3))
+ # queue_pool()
 
 
