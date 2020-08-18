@@ -1,7 +1,7 @@
 import re
 
 
-
+'''
 str1 = 'Hello World!'
 #第一个字符是 r，表示 raw string 原生字符，意在声明字符串中间的特殊字符不用转义
 
@@ -28,7 +28,7 @@ finditer = re.finditer(r'l', str1)
 for f in finditer:
     print(f.span())
 
-'''
+
 常用的正则表达式符号:
 1  '.'      # 默认匹配换行符(\n)之外的任意一个字符；flags=re.DOTALL(将换行符也匹配出来)
 2  '^'      # 匹配字符串开头；flags=re.MULTILINE(如果开头为换行符或者其他特殊，可以从换行符后面开始匹配)
@@ -77,5 +77,23 @@ def rematch():       #只在字符串开头位置开始匹配，返回MatchObjec
 
 
 #*,+,?都是贪婪匹配，也就是尽可能的匹配 后面加？使其变成惰性匹配
+import requests
+if '__main__' == __name__:
+    # str = 'https://box.bdimg.com/static/fisp_static/common/img/searchbox/logo_news_276_88_1f9876a.png,https://log.news.baidu.com/v.gif'
+    # m = re.match(r'(https+://.+?(gif|png)$)', '')
+    # print(m.groups())
+    get = requests.get('http://news.baidu.com/ent')
+    get.encoding = 'utf-8'
+    print(get.text)
+    # # r'https://.*?(png|gif)'
+    # r'https://.*?(png|gif)'
+    # # re_compile = re.compile(r'^(http).+(.png|.jpg)$')
+    # re_compile = re.compile(r'^(https?://)(.+?)(?:gif|png)$')
+    # re_compile = re.compile('(.+?)(\.gif|\.jpeg|\.png|\.jpg|\.bmp)')
+    re_compile = re.compile('(https+.+?)(\.gif|\.jpeg|\.png|\.jpg|\.bmp)')
+    findall = re.findall(re_compile,get.text)
+    findall = set(findall)
+    for x in findall:
+        print(''.join(x))
 
 
