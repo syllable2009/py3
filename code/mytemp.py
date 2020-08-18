@@ -1,16 +1,10 @@
-time = 0
-
-
-def study_time(time):
-    def insert_time(min):
-        nonlocal  time
-        time = time + min
-        return time
-    return insert_time
-
-
-f = study_time(time)
-print(f(2))
-print(time)
-print(f(10))
-print(time)
+import time
+def decorator(func):
+    def punch():
+        print(time.strftime('%Y-%m-%d', time.localtime(time.time())))
+        func()
+    return punch
+def punch():
+    print('昵称：两点水  部门：做鸭事业部 上班打卡成功')
+f = decorator(punch)
+f()
