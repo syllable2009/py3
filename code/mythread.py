@@ -63,6 +63,7 @@ if __name__ == '__main__':
  # 让小红摸一次鱼休息2秒钟
  # thread1 = MyThread(1, "小明", 1)
  # thread2 = MyThread(2, "小红", 2)
+ # print("End Main threading")
  #
  # # 开启新线程
  # thread1.start()
@@ -75,6 +76,6 @@ if __name__ == '__main__':
  pool = ThreadPoolExecutor(20)
  for i in range(1, 5):
      pool.submit(moyu_time('小帅b' + str(i), 1, 3))
- # queue_pool()
+ queue_pool()
 
 
