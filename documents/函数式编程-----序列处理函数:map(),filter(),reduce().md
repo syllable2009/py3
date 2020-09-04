@@ -19,7 +19,8 @@ print(lc)
 ['1', '2', '3', '4', '5']
 ['z', 'h', 'a', 'n', 'g', 'k', 'a', 'n', 'g']
 
-str()是python的内置函数，自定义如下
+str()是python的内置函数
+自定义如下
 def mul(x):
     return x*x
 
