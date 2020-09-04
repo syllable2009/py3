@@ -1,12 +1,5 @@
-import requests
-import eventlet
-eventlet.monkey_patch()
-
-try:
-    with eventlet.Timeout(2):
-        requests.get("http://ipv4.download.thinkbroadband.com/1GB.zip", verify=False)
-        print('====')
-except Exception as e:
-    print('____')
-    print(type(e))
-    print('____')
+from pathlib import Path
+data_folder = Path("source_data/text_files/")
+file_to_open = data_folder / "raw_data.txt"
+print(file_to_open.name)
+print(file_to_open.suffix)
