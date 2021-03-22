@@ -1,54 +1,56 @@
 
 import requests
+from requests.packages import urllib3
+urllib3.disable_warnings()    # 就这一句就可以解决verify=False时的警告信息
 import urllib.parse
 from bs4 import BeautifulSoup
 # print(BeautifulSoup.__file__)
-
+headers = {
+    "User-Agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.146 Safari/537.36"
+}
+parameter = {
+    "key1":"value1",
+    "key2":"value2"
+}
 def request_test():
+    #timeout 仅对连接过程有效，与响应体的下载无关。 timeout 并不是整个下载响应的时间限制，而是如果服务器在 timeout 秒内没有应答，将会引发一个异常（更精确地说，是在 timeout 秒内没有从基础套接字上接收到任何字节的数据时
     url = 'http://httpbin.org/get?a=b&c=d'
-    response = requests.get(url)
-    print(type(response.text), response.text)
-    print(type(response.content), response.content)
+    response = requests.get(url,params = parameter,headers = headers,timeout = 300,allow_redirects=True, verify=True)
+    print(response.url)
+    print(type(response))
+    print(response.status_code)
+    print(response.encoding)
+    #改变编码
+    # response.encoding = 'ISO-8859-1'
+    print(response.request.headers)
+    print(response.headers['content-type'])
+    print(type(response.text))
+    print(type(response.content))
+    print(response.json())
+    print(type(response.cookies),response.cookies)
+    print(type(response.headers),response.headers)
+    print(type(response.history),response.history)
 
+url = 'http://httpbin.org/post'
 def request_test2():
-    base_url = 'http://httpbin.org/'
-    params = {
-        'key1': 'value1',
-        'key2': 'value2'
-    }
-    full_url = base_url + urllib.parse.urlencode(params)
-
-    print(full_url)
+    file = {"file":open('1.py', 'rb')}
+    response = requests.post(url,files = file)
+    print(response.json())
+    # with open('massive-body') as f:
+    #     requests.post('http://some.url/streamed', data=f)
 
 def request_test3():
-    payload = {
-        'key1': 'value1',
-        'key2': 'value2'
-    }
-    response = requests.get('http://httpbin.org/get', params=payload)
-    print(response.url)
+    #Cookie 的返回对象为 RequestsCookieJar，它的行为和字典类似，但接口更为完整，适合跨域名跨路径使用。还可以把 Cookie Jar 传到 Requests 中
+    jar = requests.cookies.RequestsCookieJar()
+    jar.set('tasty_cookie', 'yum', domain='httpbin.org', path='/cookies')
+    jar.set('gross_cookie', 'blech', domain='httpbin.org', path='/elsewhere')
+    url = 'http://httpbin.org/cookies'
+    response = requests.get(url, cookies=jar)
+    print(response.cookies)
+    for key,value in response.cookies.items():
+        print(key+"="+value)
 
 def request_test4():
-    url = 'http://bbs.chinaunix.net/member.php?mod=logging&action=login&loginsubmit=yes&loginhash=LcN2z'
-    headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.146 Safari/537.36'
-    }
-    data = {
-        'username': 'StrivePy',
-        'password': 'XXX'
-    }
-    response = requests.post(url=url, data=data, headers=headers)
-    page_source = response.text
-    print(response.status_code)
-    print(page_source)
-
-    url1 = 'http://bbs.chinaunix.net/thread-4263876-1-1.html'
-    response1 = requests.get(url=url1, headers=headers)
-    page_source1 = response1.text
-    print(response1.status_code)
-    print(page_source1)
-
-def request_test5():
     url = 'http://bbs.chinaunix.net/member.php?mod=logging&action=login&loginsubmit=yes&loginhash=LcN2z'
     headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.146 Safari/537.36'
@@ -147,4 +149,4 @@ def session():
     print(r.text)
 if __name__ == '__main__':
     # zhihuCookie2()
-    request_test()
+    request_test3()

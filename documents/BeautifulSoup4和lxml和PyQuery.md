@@ -6,7 +6,8 @@ BeautifulSoup 用来解析 HTML 比较简单，API非常人性化，支持CSS选
 
 要解析文档内容之前，先要用BeautifulSoup实例一个对象。如下，它的类型为<class 'bs4.BeautifulSoup'>
 soup = BeautifulSoup(html,"lxml") #使用lxml来进行解析
-print(soup.prettify()) 
+缩进格式
+print(bs.prettify())
 
 Beautiful Soup将复杂HTML文档转换成一个复杂的树形结构,每个节点都是Python对象,所有对象可以归纳为4种:
 #四个常用的对象：
