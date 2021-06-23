@@ -84,7 +84,7 @@ if '__main__' == __name__:
     # print(m.groups())
     get = requests.get('http://news.baidu.com/ent')
     get.encoding = 'utf-8'
-    print(get.text)
+    # print(get.text)
     # # r'https://.*?(png|gif)'
     # r'https://.*?(png|gif)'
     # # re_compile = re.compile(r'^(http).+(.png|.jpg)$')
