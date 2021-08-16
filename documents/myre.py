@@ -51,49 +51,72 @@ for f in finditer:
 18 '[a-zA-Z0-9]' 匹配所有的大小写字母数字
 '''
 
+# 普通的内置方法代码查找，找不到有异常
+def index(str,keyword):
+    print(str.index(keyword) > -1)
+    print(keyword in str)
+
+# 这个例子只是方便我们理解正则表达式，这个正则表达式的写法是毫无意义的,正则表达式的灵魂在于规则，所以这样做意义不大
+def find_all(keyword,str):
+    findall = re.findall(keyword, str)
+    if len(findall) > 0:
+        print('str含有“两点水”这个字符串')
+    else:
+        print('str不含有“两点水”这个字符串')
+
 #常用的语法
-import re #放在文件头以下省略
-def refindall():     #把所有匹配的字符以元素的形式放入列表，返回一个列表
-    print(re.findall('^a', '\nabc'))    #[]
-    print(re.findall('^a', '\nabc', flags=re.MULTILINE))   #['a']
-    print(re.findall('.', '\nabc'))    #['a', 'b', 'c']
-    print(re.findall('.', '\nabc', flags=re.DOTALL))   #['\n', 'a', 'b', 'c']
+# import re #放在文件头以下省略
+# def refindall():     #把所有匹配的字符以元素的形式放入列表，返回一个列表
+#     print(re.findall('^a', '\nabc'))    #[]
+#     print(re.findall('^a', '\nabc', flags=re.MULTILINE))   #['a']
 
-def research():      #查找字符串中于正则表达式匹配的第一个位置，返回相应的MatchObject实例,后缀 .group() 方法可以取得相应的str型值
-    print(re.search('a', '\nabdgc ddaad'))  #<re.Match object; span=(1, 2), match='a'>
-    print(re.search('a', '\nabdgc ddaad').group())  #a   #直接以字符出返回
+# def research():      #查找字符串中于正则表达式匹配的第一个位置，返回相应的MatchObject实例,后缀 .group() 方法可以取得相应的str型值
+#     print(re.search('a', '\nabdgc ddaad'))  #<re.Match object; span=(1, 2), match='a'>
+#     print(re.search('a', '\nabdgc ddaad').group())  #a   #直接以字符出返回
 
-def resub():         #将匹配到的字符替换
-    print(re.sub('正则表达式', '用来替代的字符串', '字符串'))  #返回替换后的字符串
-    print(re.sub('.', 'a', '\nabdgc ddaad'))  #aaaaaaaaaaa
+# def resub():         #将匹配到的字符替换
+#     print(re.sub('正则表达式', '用来替代的字符串', '字符串'))  #返回替换后的字符串
 
-def resplit():       #将匹配到的字符当做列表分隔符，将分隔开的元素放在列表中返回
-    print(re.split('abc', 'sldkleabcdklsabcd'))  #['sldkle', 'dkls', 'd']
 
-def rematch():       #只在字符串开头位置开始匹配，返回MatchObject实例,使用.group()获取值
-    print(re.match('abc', 'sldkleabcdklsabcd'))  #None  #匹配不到返回None
-    print(re.match('abc', 'abcabcsldkledklsabcd'))  #<re.Match object; span=(0, 3), match='abc'>
-    print(re.match('abc', 'abcabcsldkledklsabcd').group())  #abc
+# def resplit():       #将匹配到的字符当做列表分隔符，将分隔开的元素放在列表中返回
+#     print(re.split('abc', 'sldkleabcdklsabcd'))  #['sldkle', 'dkls', 'd']
+
+# def rematch():       #只在字符串开头位置开始匹配，返回MatchObject实例,使用.group()获取值
+#     print(re.match('abc', 'sldkleabcdklsabcd'))  #None  #匹配不到返回None
+#     print(re.match('abc', 'abcabcsldkledklsabcd'))  #<re.Match object; span=(0, 3), match='abc'>
+#     print(re.match('abc', 'abcabcsldkledklsabcd').group())  #abc
 
 
 #*,+,?都是贪婪匹配，也就是尽可能的匹配 后面加？使其变成惰性匹配
 import requests
 if '__main__' == __name__:
+    # 比如在一段字符串中寻找是否含有某个字符或某些字符，通常我们使用内置函数来实现，如下
+    str = "两点水|twowater|liangdianshui|草根程序员|ReadingWithU"
+    # index(str,"两点水")
+    # re.findall('两点水', str) 该函数实现了在字符串中找到正则表达式所匹配的所有子串，并组成一个列表返回
+    # find_all("两点水",str)
+    re_findall = re.findall('[a-z]', str)
+    print(re_findall)
+
+
     # str = 'https://box.bdimg.com/static/fisp_static/common/img/searchbox/logo_news_276_88_1f9876a.png,https://log.news.baidu.com/v.gif'
     # m = re.match(r'(https+://.+?(gif|png)$)', '')
     # print(m.groups())
-    get = requests.get('http://news.baidu.com/ent')
-    get.encoding = 'utf-8'
+    # get = requests.get('http://news.baidu.com/ent')
+    # get.encoding = 'utf-8'
     # print(get.text)
     # # r'https://.*?(png|gif)'
     # r'https://.*?(png|gif)'
     # # re_compile = re.compile(r'^(http).+(.png|.jpg)$')
     # re_compile = re.compile(r'^(https?://)(.+?)(?:gif|png)$')
     # re_compile = re.compile('(.+?)(\.gif|\.jpeg|\.png|\.jpg|\.bmp)')
-    re_compile = re.compile('(https+.+?)(\.gif|\.jpeg|\.png|\.jpg|\.bmp)')
-    findall = re.findall(re_compile,get.text)
-    findall = set(findall)
-    for x in findall:
-        print(''.join(x))
+    # re_compile = re.compile('(https+.+?)(\.gif|\.jpeg|\.png|\.jpg|\.bmp)')
+    # findall = re.findall(re_compile,get.text)
+    # findall = set(findall)
+    # for x in findall:
+    #     print(''.join(x))
+
+
+
 
 

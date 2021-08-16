@@ -9,13 +9,16 @@ def operateDB():
     # cursor方法获得MySQL的操作游标
     cursor = conn.cursor()
     # 用execute()方法执行即可
-    cursor.execute('SELECT VERSION()')
+    cursor.execute('SELECT * from test')
     # 获取执行结果
     data = cursor.fetchone()
+    data = cursor.fetchall()
     print('Database version:', data)
     # cursor.execute("CREATE DATABASE spiders DEFAULT CHARACTER SET utf8mb4")
     # 关闭链接
     conn.close()
+    # 关闭光标
+    cursor.close()
 
 id = random.randint(1,2147483647)
 name = random.sample('zyxwvutsrqponmlkjihgfedcba0123456789',5)
@@ -93,4 +96,5 @@ def delete():
     print(sql)
 
 if __name__ == '__main__':
-    updateOrInsert()
+    operateDB()
+    # updateOrInsert()
