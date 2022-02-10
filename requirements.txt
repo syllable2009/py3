@@ -173,7 +173,7 @@ SQLAlchemy==1.2.11
 tblib==1.6.0
 tempora==1.13
 tensorboard==2.1.1
-tensorflow==2.1.0
+tensorflow==2.5.3
 tensorflow-estimator==2.1.0
 termcolor==1.1.0
 text-unidecode==1.2
