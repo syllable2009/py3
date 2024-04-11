@@ -7,6 +7,10 @@ pyinstaller -F -i /Users/jiaxiaopeng/App.ico hello.py
 利用PyCharm+Python+wordcloud+jieba+docx生成中文词云和词频统计-补充完善的代码
 
 
+每个py结尾的文件都是一个模块。
+模块中国定义的类，全局变量，函数都是直接提供给外界使用的工具。
+包是包含多个模块的特殊目录，目录下有一个__init__.py来指定对外界的模块列表
+
 
 # py3常用工具模块集合
 -利用 Python Faker 包来制作假数据：
@@ -19,4 +23,14 @@ pyinstaller -F -i /Users/jiaxiaopeng/App.ico hello.py
 -Pandas易于使用的数据结构和数据分析工具
 -解析库
 -存储文件，TXT文件存储,JSON文件存储,CSV文件存储,MySQL存储
+
+
+
+Python 内置的注解
+@property
+@staticmethod
+@classmethod
+
+自定义注解以 @ 符号开头，紧跟着一个函数或类的定义
+
     

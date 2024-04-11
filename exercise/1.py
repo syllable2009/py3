@@ -59,5 +59,19 @@ class MyThread2(threading.Thread):
 if __name__ == '__main__':
        # circle()
        # circle2()
+       lock = threading.Lock
+       r_lock = threading.RLock
+       try:
+        lock.acquire()
+        lock.release()
+       except:
+           pass
+       finally:
+           lock.release()
+
+       with lock:
+           pass
+
+       # threading模块提供了Condition对象专门处理生产者消费者问题
        for i in range(5):
            MyThread(i,'thread {}'.format(i)).start()
