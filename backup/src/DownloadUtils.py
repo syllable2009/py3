@@ -68,7 +68,7 @@ def download3():
 
 
 if __name__ == '__main__':
-    url = "https://message.corp.kuaishou.com/api/file/preview/ccfb7c2c-a30e-4baa-b828-59e357a3b0a5?fileSuffix=png"
+    url = "https://message.xxxx.com/api/file/preview/ccfb7c2c-a30e-4baa-b828-59e357a3b0a5?fileSuffix=png"
     # download = DownloadUtils(url)
     # DownloadUtils.downloadUrlFile()
     # dir = os.path.abspath('.')
