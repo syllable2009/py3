@@ -1,9 +1,19 @@
 #!/usr/bin/env python3 # 告诉Linux/OS X系统，这是一个Python可执行程序，Windows系统会忽略这个注释
-# -*- coding: utf-8 -*- # 告诉Python解释器，按照UTF-8编码读取源代码，否则，你在源代码中写的中文输出可能会有乱码
-'''
-多行注释
-'''
+# -*- coding: utf-8 -*- # 告诉Python解释器，边解释边执行，按照UTF-8编码读取源代码，否则，你在源代码中写的中文输出可能会有乱码
+# 有些实现（如 PyPy）可以编译成字节码，提高性能。
 # 单行注释
+'''多行注释'''
+# 使用缩进来表示代码块，不需要使用大括号 {}，缩进的空格数是可变的，但是同一个代码块的语句必须包含相同的缩进空格数。
+# 一行写完一条语句，但如果语句很长，我们可以使用反斜杠 \ 来实现多行语句。在 [], {}, 或 () 中的多行语句，不需要使用反斜杠 \
+total = 1 + \
+        2 + \
+        3
+total = ['item_one', 'item_two', 'item_three',
+         'item_four', 'item_five']
+
+# Python动态类型语言，变量类型在运行时确定
+
+
 print(r'Newlines are indicated by \n')  # 在字符串前面加上r或者R=原始字符串
 print('name:%s,age:%d' % ('张三', 100))  # 格式化
 print('What\'s your name? \n{0} was {1} years old when he wrote this book'.format('jxp', 33))  # format + 转义序列
