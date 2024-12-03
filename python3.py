@@ -128,6 +128,19 @@ while age < 5:
 else:
     age += 1
 
+#异常
+try:
+    print('try...')
+    r = 10 / int('2')
+    print('result:', r)
+except ValueError as e:
+    print('ValueError:', e)
+except ZeroDivisionError as e:
+    print('ZeroDivisionError:', e)
+else:
+    print('no error!')
+finally:
+    print('finally...')
 
 # 函数
 # 在 python 中，类型属于对象，对象有不同类型的区分，变量是没有类型的
@@ -151,9 +164,16 @@ def show(a, *x, **y):
     print(a)
     print(x)
     print(y)
-
-
 show(1, 2, 3, x=4, y=5)
+def total(a=5, *numbers, **phonebook):
+    print('a', a)
+    # 遍历元组中的所有项
+    for single_item in numbers:
+        print('single_item', single_item)
+    # 遍历字典中的所有项
+    for first_part, second_part in phonebook.items():
+        print('double', first_part, second_part)
+print(total(10, 1, 2, 3, Jack=1123, John=2231, Inge=1560))
 
 # 高级函数：返回函数，匿名函数，装饰器，偏函数
 # 匿名函数:lambda [arg1 [,arg2,.....argn]]:expression
@@ -223,35 +243,61 @@ target_function(1, 2)
 # 除了函数装饰器，Python 还支持类装饰器。类装饰器是包含 __call__ 方法的类，它接受一个函数作为参数，并返回一个新的函数。
 
 
-
-
-
 # 作用域：__xxx__这样的变量是特殊变量，可以被直接引用，以一个下划线开头的实例变量名，比如_name，这样的实例变量外部是可以访问的,__xxx这样的函数或变量就是非公开的（private），不应该被直接引用。
 # 面向对象编程
 class Student(object):
-    def __init__(self, name,
-                 score):  # __init__方法的第一个参数永远是self，表示创建的实例本身，就不能传入空的参数了，必须传入与__init__方法匹配的参数，但self不需要传
+    i = 12345
+    # __init__方法在类实例化时会自动调用第一个参数永远是self，表示创建的实例本身，必须传入与__init__方法匹配的参数，但self不需要传
+    def __init__(self, name, score):
         self.name = name
-        self.__score = score
+        self.score = score
+        self.data = []
 
-    # 和普通的函数相比，在类中定义的函数只有一点不同，就是第一个参数永远是实例变量self，并且，调用时，不用传递该参数
+    # 和普通的函数相比，在类中定义的函数只有一点不同，就是第一个参数永远是实例变量self，并且调用时，不用传递该参数
     def print_score(self):
-        print('%s: %s' % (self.name, self.__score))
+        print('调用父类方法:%s: %s' % (self.name, self.score))
 
-
+# 实例化类与调用
 bart = Student('Bart Simpson', 59)
 bart.print_score()
+bart.i
 
-
+# 继承，子类会继承父类（基类 BaseClassName）的属性和方法。多继承。
 class Teacher(Student):
-    pass
-
+    def print_score(self):
+        super().i
+        print('调用子类方法:%s: %s' % (self.name, self.score))
 
 print(type(bart))  # 使用type()来判断类型，可配合types模块使用
 print(isinstance(bart, Student))  # isinstance()来判断继承关系
 print(dir(123))  # dir()函数获得一个对象的所有属性和方法，它返回一个包含字符串的list
-hasattr(bart, 'id')
-getattr(bart, '__name')
+print(hasattr(bart, 'id'))
+print(getattr(bart, 'i'))
+
+# 方法重写
+c = Teacher('jxp', 66)          # 子类实例
+c.print_score()         # 子类调用重写方法
+#用子类对象调用父类已被覆盖的方法
+
+
+# 作用域
+g_count = 0  # 全局作用域
+def outer():
+    o_count = 1  # 闭包函数外的函数中
+    def inner():
+        i_count = 2  # 局部作用域
+
+# 一些 Python3 标准库中的模块：
+# os 模块：os 模块提供了许多与操作系统交互的函数，例如创建、移动和删除文件和目录，以及访问环境变量等。
+# sys 模块：sys 模块提供了与 Python 解释器和系统相关的功能，例如解释器的版本和路径，以及与 stdin、stdout 和 stderr 相关的信息。
+# time 模块：time 模块提供了处理时间的函数，例如获取当前时间、格式化日期和时间、计时等。
+# datetime 模块：datetime 模块提供了更高级的日期和时间处理函数，例如处理时区、计算时间差、计算日期差等。
+# random 模块：random 模块提供了生成随机数的函数，例如生成随机整数、浮点数、序列等。
+# math 模块：math 模块提供了数学函数，例如三角函数、对数函数、指数函数、常数等。
+# re 模块：re 模块提供了正则表达式处理函数，可以用于文本搜索、替换、分割等。
+# json 模块：json 模块提供了 JSON 编码和解码函数，可以将 Python 对象转换为 JSON 格式，并从 JSON 格式中解析出 Python 对象。
+# urllib 模块：urllib 模块提供了访问网页和处理 URL 的功能，包括下载文件、发送 POST 请求、处理 cookies 等。
+
 # 高级动态语言 Python的file-like object
 bart.id = 'bart'  # 给实例动态绑定属性
 bart.lazy_sum = lazy_sum  # 给实例动态绑定函数
@@ -262,31 +308,18 @@ Teacher.lazy_sum = lazy_sum  # 给class动态绑定函数
 
 
 class Student(object):
-    __slots__ = ('name', 'age')  # __slots__限制用tuple定义允许绑定的属性名称
+    # 为了达到限制的目的，Python允许在定义class的时候，定义一个特殊的__slots__变量，来限制该class实例能添加的属性
+    __slots__ = ('name', 'age')
 
 
-# @property装饰器就是负责把一个方法变成属性调用的
+# @property装饰器，把方法变成属性，调用不用加括号，还附赠了@x.setter装饰器和@x.deleter装饰器。
 # 定制类
 # 枚举类与元类
 
-try:
-    print('try...')
-    r = 10 / int('2')
-    print('result:', r)
-except ValueError as e:
-    print('ValueError:', e)
-except ZeroDivisionError as e:
-    print('ZeroDivisionError:', e)
-else:
-    print('no error!')
-finally:
-    print('finally...')
-print('END')
 
+# 日志
 import logging
-
 logging.basicConfig(level=logging.INFO)
-
 
 def foo(s):
     n = int(s)
@@ -294,39 +327,46 @@ def foo(s):
     assert n != 0, 'n is zero!'  # 断言失败，assert语句本身就会抛出AssertionError
     return 10 / n
 
-
 # IO编程
+import os
+print(os.getcwd())
 try:
-    f = open('/path/to/file', 'rw')
-    print(f.read())
+    f = open('test.txt', 'w')
+    f.write('hello word')
+    f.close()
 finally:
-    if f:
-        f.close()
-with open('/path/to/file', 'rw') as f:
+    pass
+
+with open('test.txt', 'r') as f:
     for line in f.readlines():
         print(line.strip())  # 把末尾的'\n'删掉
+
 # StringIO在内存中读写字符串，BytesIO操作二进制数据
 from io import StringIO
-
+print('**********')
 f = StringIO('Hello!\nHi!\nGoodbye!')
-f.write('hello')
+f.write('shit')
 print(f.getvalue())
 from io import BytesIO
 
 f = BytesIO(b'\xe4\xb8\xad\xe6\x96\x87')
 f.read()
 f.write('中文'.encode('utf-8'))
+print('**********')
 # 操作文件和目录:os模块的某些函数是跟操作系统相关的
 import os
 
 print(os.name)  # 如果是posix，说明系统是Linux、Unix或Mac OS X，如果是nt，就是Windows系统
 print(os.uname())
 os.path.abspath('.')  # 看当前目录的绝对路径
-os.path.join('/Users/michael', 'testdir')  # 在某个目录下创建一个新目录，首先把新目录的完整路径表示出来
-os.mkdir('/Users/michael/testdir')  # 然后创建一个目录
-os.rmdir('/Users/michael/testdir')  # 删掉一个目录
-os.path.split('/Users/michael/testdir/file.txt')  # 拆分路径
-os.path.splitext('/path/to/file.txt')  # 你得到文件扩展名
+path = os.path.join('/Users/jiaxiaopeng/github/py3', 'testdir')  # 在某个目录下创建一个新目录，首先把新目录的完整路径表示出来
+print(path)
+os.mkdir(path)  # 然后创建一个目录
+os.rmdir(path)  # 删掉一个目录
+path = os.path.split('/Users/michael/testdir/file.txt')  # 拆分路径
+print(path)
+path = os.path.splitext('/path/to/file.txt')  # 你得到文件扩展名
+print(path)
 
 os.rename('test.txt', 'test.py')  # 对文件重命名
 os.remove('test.py')  # 删掉文件
@@ -336,59 +376,18 @@ os.remove('test.py')  # 删掉文件
 import pickle
 
 d = dict(name='Bob', age=20, score=88)
-with open('/path/to/file', 'wb') as f:
+with open('test.txt', 'wb') as f:
     pickle.dump(d, f)
-    d = pickle.load(f)
+    # d = pickle.load(f)
 
 # Python内置的json模块提供了非常完善的Python对象到JSON格式的转换
 import json
 
 json_str = json.dumps(d)
 json.loads(json_str)
-print(json.dumps(s, default=lambda obj: obj.__dict__))
-
-y = 9
-
-
-def showMsg(a, b=1):
-    x = 5
-    global y
-    print(a * b)
-
-
-showMsg('jxp', 5)
-
-
-def total(a=5, *numbers, **phonebook):
-    print('a', a)
-
-    # 遍历元组中的所有项
-    for single_item in numbers:
-        print('single_item', single_item)
-
-    # 遍历字典中的所有项
-    for first_part, second_part in phonebook.items():
-        print('double', first_part, second_part)
-
-
-print(total(10, 1, 2, 3, Jack=1123, John=2231, Inge=1560))
 
 import os
-
 print(os.getcwd())
 print(dir(os))
 
-
 # print(help(int))
-
-class Person:
-    def __init__(self, name):
-        print('__init__')
-        self.name = name
-
-    def say_hi(self):
-        print('Hello, my name is', self.name)
-
-
-p = Person('Swaroop')
-p.say_hi()
