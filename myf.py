@@ -15,7 +15,6 @@ def log(func):
 
         print(f"{func.__name__} returned {repr(result)}")
         return result
-
     return wrapper
 
 class Item(BaseModel):
