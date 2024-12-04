@@ -1,4 +1,4 @@
-from fastapi import FastAPI,Depends, Header, Cookie, HTTPException, Query, Request, Response, Form
+from fastapi import FastAPI,Depends, Header, Cookie, HTTPException, Query, Request, Response, Form, File, UploadFile
 from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 # 异步
@@ -7,7 +7,7 @@ import uvicorn
 # 导入了 Union 类型，用于支持多种数据类型的参数注解
 from typing import Union
 # Pydantic 是一个用于数据验证和序列化的 Python 模型库。
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 import logging
 
@@ -43,6 +43,11 @@ class Item(BaseModel):
     name: str
     price: float
     is_offer: Union[bool, None] = None
+
+class Blog(BaseModel):
+    name: str = Field(..., title="Item Name", max_length=100)
+    description: str = Field(None, title="Item Description", max_length=255)
+    price: float = Field(..., title="Item Price", gt=0)
 
 @app.get("/")
 def read_root():
@@ -93,6 +98,11 @@ def self(item_id: int = 999):
 @app.post("/login/")
 async def login(username: str = Form(), password: str = Form()):
     return {"username": username}
+
+# 路由操作函数
+@app.post("/files/")
+async def create_file(file: UploadFile = File(...)):
+    return {"filename": file.filename}
 
 if __name__ == '__main__':
     uvicorn.run(app, host="127.0.0.1", port=8001)
