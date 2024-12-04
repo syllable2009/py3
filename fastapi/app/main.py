@@ -1,6 +1,8 @@
-from fastapi import FastAPI, Header, Cookie, HTTPException, Query, Request, Response
+from fastapi import FastAPI,Depends, Header, Cookie, HTTPException, Query, Request, Response, Form
 from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+# 异步
+import asyncio
 import uvicorn
 # 导入了 Union 类型，用于支持多种数据类型的参数注解
 from typing import Union
@@ -87,6 +89,10 @@ def self(item_id: int = 999):
     headers = {"X-Custom-Header": "custom-header-value"}
     # 使用 JSONResponse 自定义响应头
     return JSONResponse(content=content, headers=headers)
+
+@app.post("/login/")
+async def login(username: str = Form(), password: str = Form()):
+    return {"username": username}
 
 if __name__ == '__main__':
     uvicorn.run(app, host="127.0.0.1", port=8001)
