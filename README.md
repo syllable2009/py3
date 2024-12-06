@@ -87,6 +87,28 @@ async def main():
 
 asyncio.run(main())
 
+# injector 是一个轻量级的依赖注入框架，可以帮助您管理依赖关系。
+class AppModule(Module):
+    @provider
+    @Named('database')
+    def provide_database(self) -> Database:
+        return Database()
+    @provider
+    @Named('userService')
+    def provide_user_service(self, db: Database) -> UserService:
+        return UserService(db)
+
+class UserService:
+    @inject
+    def __init__(self, db: Database = Named('database')):  # 默认使用 SQLite
+        self.db = db
+
+# 设置依赖注入
+# 创建 Injector 实例
+injector = Injector([AppModule()])
+# 获取 UserService 实例
+user_service = injector.get(UserService, db=Named('userService'))
+
 
 Python打包方法——Pyinstaller
 pyinstaller -F -i /Users/jiaxiaopeng/App.ico hello.py

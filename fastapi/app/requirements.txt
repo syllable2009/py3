@@ -8,3 +8,4 @@ sqlalchemy==2.0.36
 aioredis==2.0.1
 async-timeout==5.0.1
 mysql-connector-python==9.1.0
+injector==0.22.0
