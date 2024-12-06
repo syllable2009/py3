@@ -22,16 +22,27 @@ DATABASE_URL = "mysql+mysqlconnector://jiaxiaopeng:admin1234@localhost/my3"
 engine = create_engine(DATABASE_URL)
 
 # 创建所有表
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
+
+# 创建数据库会话
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# 依赖项：获取数据库会话
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 # 创建会话
 Session = sessionmaker(bind=engine)
 session = Session()
 
 # 插入数据
-new_user = User(name='Jane Doe', email='jane@example.com')
-session.add(new_user)
-session.commit()
+# new_user = User(name='Jane Doe', email='jane@example.com')
+# session.add(new_user)
+# session.commit()
 
 # 查询数据
 users = session.query(User).all()
