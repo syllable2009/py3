@@ -12,21 +12,23 @@ class UserService:
             return execute.all()
 
     # SELECT * FROM users WHERE name='nick'
-    def select_by_name(name: str):
+    def select_by_name(self, name: str):
         with new_session() as s:
             stmt = select(User).filter(User.name == name)
             return s.execute(stmt).first()
 
     # 查询用户信息的函数
-    def select_user_by_id(user_id):
+    def select_user_by_id(self, user_id):
+        print("s1")
         with new_session() as s:
             # 查询用户
-            return s.get(User, user_id)
+            get = s.get(User, user_id)
+            return get
 
-    # 创建用户添加对象直接使用 session.add 方法
+            # 创建用户添加对象直接使用 session.add 方法
     # session.add(user)
     # session.add_all([user1, user2, group1])
-    def create_user(name):
+    def create_user(self, name):
         with new_session() as session:
             new_user = User(name=name, fullname='test')
             new_user.description = ''
@@ -35,7 +37,7 @@ class UserService:
             print("add:{},result:{}".format(new_user, add))
 
     # 更新用户
-    def update_user(user_id, name=None):
+    def update_user(self, user_id, name=None):
         with new_session() as session:
             stmt = update(User).where(User.id == user_id).values(name=name).execution_options(
                 synchronize_session="fetch")
@@ -44,7 +46,7 @@ class UserService:
             print("update:{}".format(execute))
 
     # 删除用户
-    def delete_user(user_id):
+    def delete_user(self, user_id):
         with new_session() as session:
             # user = session.get(User, user_id)
             # session.delete(user)
@@ -76,6 +78,7 @@ def origin_sql():
         # conn.execute(text("INSERT INTO users (id, name) VALUES (:x, :y)"),
         #              [{"x": 11, "y": 12}, {"x": 13, "y": 14}])
 
+
 # 事务与 commit
 def transaction_commit():
     # 半自动 autocommit不建议使用
@@ -90,15 +93,18 @@ def transaction_commit():
         )
         conn.commit()  # 注意这里的 commit
 
+
 def orm_mapping():
     foo = User(name='jxp', email='123@test.qq.com')
     with Session(engine) as session:
         session.add(foo)
         session.commit()
 
+
 def orm_mapping2():
     with new_session() as session:
         pass
+
 
 if __name__ == "__main__":
     pass

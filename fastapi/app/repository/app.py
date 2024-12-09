@@ -23,7 +23,9 @@ if __name__ == "__main__":
     userService = injector.get(UserService)
     select_all = userService.select_all()
     print(select_all)
-    pass
+    # by_id = userService.select_user_by_id(4)
+    # print(by_id)
+    userService.create_user("lihai")
 
 
 
