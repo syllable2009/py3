@@ -7,8 +7,9 @@ from sqlalchemy import (create_engine, text, select, update, Column, BigInteger,
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship, mapped_column, Mapped, \
     DeclarativeBase, Session
 # 和 1.x API 不同，sqlalchemy2.0 API 中不再使用 query，而是使用 select 来查询数据。
-from sqlalchemy import create_engine, text, select, update,Engine
+from sqlalchemy import create_engine, text, select, update, Engine
 from contextlib import contextmanager
+from sqlalchemy.inspection import inspect
 
 DATABASE_URL = "mysql+mysqlconnector://jiaxiaopeng:admin1234@localhost/my3?charset=utf8mb4"
 
@@ -28,7 +29,8 @@ engine = create_engine(
 )
 
 # 还可以使用 sessionmaker 来创建一个工厂函数，这样就不用每次都输入参数了
-new_session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+new_session = sessionmaker(autocommit=False, autoflush=True, bind=engine)
+
 
 # 依赖项：获取数据库会话，可以自动关闭，省略一些胶水代码with
 # 类似with new_session() as session:
@@ -41,6 +43,7 @@ def get_session():
     finally:
         s.close()
 
+
 # 调用 create_all 创建所有表
 # Base.metadata.create_all(engine)
 # 如果只需要创建一个表
@@ -49,6 +52,7 @@ def get_session():
 # 定义一个数据库模型（即表结构），它允许你通过继承一个基类并定义属性来映射数据库表的列。
 class Base(DeclarativeBase):
     pass
+
 
 # 定义一个数据库用户orm映射类和表
 class User(Base):
@@ -73,8 +77,23 @@ class User(Base):
     def __repr__(self):
         return f"<User(id={self.id}, name='{self.name}', fullname='{self.fullname}')>"
 
+
 # 定义一个地址orm映射类和表
 class Address(Base):
     __tablename__ = "address"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     email_address: Mapped[str] = mapped_column(String, nullable=False)
+
+
+from dto import UserDTO
+if __name__ == "__main__":
+    # columns = User.__table__.columns
+    # print(columns)
+    # print(type(columns))
+    # columns_ = [c.name for c in columns]
+    # print(columns_)
+    user = User()
+    user.id = 100
+    results = []
+    results.append(UserDTO.model_dump_json(user))
+    print(results)

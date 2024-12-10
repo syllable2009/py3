@@ -4,6 +4,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from models import User, Base
 import uvicorn
+from di import injector, UserService
+from dto import UserDTO
+from pydantic import TypeAdapter
+from typing import List
+from dbmodel import Users
+from sqlalchemy import delete, select, update, text
 
 DATABASE_URL = "mysql+mysqlconnector://jiaxiaopeng:admin1234@localhost/my3"
 
@@ -22,9 +28,8 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # 创建 FastAPI 应用
 app = FastAPI()
 
-# 创建数据库表
-Base.metadata.create_all(bind=engine)
-
+user_service = injector.get(UserService)
+new_session = injector.get(Session)
 
 # 依赖项：获取数据库会话
 def get_db():
@@ -46,11 +51,14 @@ def create_user(name: str, email: str, db: Session = Depends(get_db)):
 
 
 # 路由：获取所有用户
-@app.get("/users/", response_model=list)
-def read_users(db: Session = Depends(get_db)):
-    users = db.query(User).all()
-    return [{"id": user.id, "name": user.name, "email": user.email} for user in users]
-
+@app.get("/users/", response_model= list[Users])
+def read_users():
+    with new_session() as s:
+        execute = s.execute(select(Users))
+        execute_all: list[Users] = execute.all()
+        print(execute_all)
+        return execute_all
+    return []
 
 # 路由：获取特定用户
 @app.get("/users/{user_id}", response_model=dict)
@@ -58,7 +66,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    return {"id": user.id, "name": user.name, "email": user.email}
+    return {"id": user.id, "name": user.name, "fullname": user.fullname}
 
 
 if __name__ == '__main__':

@@ -12,7 +12,7 @@ class DatabaseModule(Module):
         # binder.bind 方法用于将一个接口或抽象类与具体的实现类关联起来。这使得在请求依赖项时，injector 知道应该提供哪个具体的实现。
         binder.bind(User, to=User, scope=None)  # 表示每次请求都会创建一个新的实例
         # session是orm的更好的封装，engine是原始的sql更灵活
-        binder.bind(Session, to=new_session(), scope=None)
+        binder.bind(Session, to=new_session, scope=None)
         binder.bind(Engine, engine, scope=singleton)
         binder.bind(UserService, to=UserService, scope=singleton)
         binder.bind(Address, to=Address, scope=singleton)  # 单例模式
