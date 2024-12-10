@@ -1,5 +1,5 @@
 # service.py 封装服务
-from models import User, new_session, engine
+from models import User, new_session, engine, get_session
 from sqlalchemy import delete, select, update, text
 from sqlalchemy.orm import DeclarativeBase, relationship, Session, Mapped, mapped_column
 
@@ -20,7 +20,7 @@ class UserService:
 
     # 查询用户信息的函数
     def select_user_by_id(self, user_id):
-        with new_session() as s:
+        with get_session() as s:
             # 查询用户
             return s.get(User, user_id)
 
@@ -118,3 +118,4 @@ if __name__ == "__main__":
     # create_user('lisi')
     # delete_user(7)
     # update_user(4,'李四')
+

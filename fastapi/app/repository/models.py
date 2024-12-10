@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base, relationship, mapped_
     DeclarativeBase, Session
 # 和 1.x API 不同，sqlalchemy2.0 API 中不再使用 query，而是使用 select 来查询数据。
 from sqlalchemy import create_engine, text, select, update,Engine
+from contextlib import contextmanager
 
 DATABASE_URL = "mysql+mysqlconnector://jiaxiaopeng:admin1234@localhost/my3?charset=utf8mb4"
 
@@ -18,7 +19,7 @@ DATABASE_URL = "mysql+mysqlconnector://jiaxiaopeng:admin1234@localhost/my3?chars
 # 创建数据库引擎，添加连接池配置
 engine = create_engine(
     DATABASE_URL,
-    echo=True,  # echo 设为 True 会打印出实际执行的 sql，调试的时候更方便
+    echo=False,  # echo 设为 True 会打印出实际执行的 sql，调试的时候更方便
     future=True,  # 使用 SQLAlchemy 2.0 API，向后兼容
     pool_size=5,  # 连接池的大小默认为 5 个，设置为 0 时表示连接无限制
     max_overflow=10,  # 连接池外的最大连接数
@@ -28,6 +29,17 @@ engine = create_engine(
 
 # 还可以使用 sessionmaker 来创建一个工厂函数，这样就不用每次都输入参数了
 new_session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# 依赖项：获取数据库会话，可以自动关闭，省略一些胶水代码with
+# 类似with new_session() as session:
+# 通过使用 @contextmanager，您可以用更简洁的方式定义上下文管理器，而不必实现 __enter__ 和 __exit__ 方法
+@contextmanager
+def get_session():
+    s = new_session()
+    try:
+        yield s
+    finally:
+        s.close()
 
 # 调用 create_all 创建所有表
 # Base.metadata.create_all(engine)
