@@ -20,7 +20,9 @@ from sqlalchemy import delete, select, update, text
 if __name__ == "__main__":
     print(Users.__table__)  # 打印表结构
     new_session = injector.get(Session)
-    with new_session as s:
+    with new_session() as s:
         stmt = select(Users)
         execute = s.execute(stmt)
-        print(execute.all())
+        execute_all = execute.all()
+        print(type(execute_all))
+        print(execute_all)

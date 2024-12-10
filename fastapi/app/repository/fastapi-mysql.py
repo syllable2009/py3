@@ -28,8 +28,19 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # 创建 FastAPI 应用
 app = FastAPI()
 
+
+# @app.on_event("startup")
+def on_startup():
+    # 调用 create_all 创建所有表
+    # Base.metadata.create_all(engine)
+    # 如果只需要创建一个表
+    # User.__table__.create(engine)
+    print("application startup")
+
+
 user_service = injector.get(UserService)
 new_session = injector.get(Session)
+
 
 # 依赖项：获取数据库会话
 def get_db():
@@ -50,23 +61,33 @@ def create_user(name: str, email: str, db: Session = Depends(get_db)):
     return {"id": new_user.id, "name": new_user.name, "email": new_user.email}
 
 
+import json
+
+
 # 路由：获取所有用户
-@app.get("/users/", response_model= list[Users])
+@app.get("/users/")
 def read_users():
     with new_session() as s:
         execute = s.execute(select(Users))
         execute_all: list[Users] = execute.all()
         print(execute_all)
-        return execute_all
-    return []
+        print(type(execute_all))
+        ret = [
+            user.dict()
+            for user in execute_all
+        ]
+        return {"count": 100, "data": ret}
+    return {}
+
 
 # 路由：获取特定用户
-@app.get("/users/{user_id}", response_model=dict)
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.id == user_id).first()
-    if user is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    return {"id": user.id, "name": user.name, "fullname": user.fullname}
+@app.get("/users/{user_id}", response_model=Users)
+def read_user(user_id: int):
+    with new_session() as s:
+        get = s.get(Users, user_id)
+        print(get)
+        print(type(get))
+        return get
 
 
 if __name__ == '__main__':

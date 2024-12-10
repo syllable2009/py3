@@ -35,14 +35,17 @@ new_session = sessionmaker(autocommit=False, autoflush=True, bind=engine)
 # 依赖项：获取数据库会话，可以自动关闭，省略一些胶水代码with
 # 类似with new_session() as session:
 # 通过使用 @contextmanager，您可以用更简洁的方式定义上下文管理器，而不必实现 __enter__ 和 __exit__ 方法
+# @contextmanager
+# def get_session():
+#     s = new_session()
+#     try:
+#         yield s
+#     finally:
+#         s.close()
 @contextmanager
 def get_session():
-    s = new_session()
-    try:
-        yield s
-    finally:
-        s.close()
-
+    with Session(engine) as session:
+        yield session
 
 # 调用 create_all 创建所有表
 # Base.metadata.create_all(engine)
