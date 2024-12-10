@@ -1,3 +1,4 @@
+# service.py 封装服务
 from models import User, new_session, engine
 from sqlalchemy import delete, select, update, text
 from sqlalchemy.orm import DeclarativeBase, relationship, Session, Mapped, mapped_column
@@ -19,13 +20,11 @@ class UserService:
 
     # 查询用户信息的函数
     def select_user_by_id(self, user_id):
-        print("s1")
         with new_session() as s:
             # 查询用户
-            get = s.get(User, user_id)
-            return get
+            return s.get(User, user_id)
 
-            # 创建用户添加对象直接使用 session.add 方法
+    # 创建用户添加对象直接使用 session.add 方法
     # session.add(user)
     # session.add_all([user1, user2, group1])
     def create_user(self, name):
@@ -107,7 +106,10 @@ def orm_mapping2():
 
 
 if __name__ == "__main__":
-    pass
+    user_service = UserService()
+    print("select_all:{}".format(user_service.select_all()))
+    print("select_by_id:{}".format(user_service.select_user_by_id(4)))
+    print("select_by_name:{}".format(user_service.select_by_name('李四')))
     # stmt = select(User).where(User.name == "john").order_by(User.id)
     # result = new_session().execute(stmt)
     # print(result.all())

@@ -1,4 +1,4 @@
-# models.py
+# models.py 定义模型
 from datetime import datetime
 from sqlalchemy import (create_engine, text, select, update, Column, BigInteger, Integer, String,
                         func,
@@ -6,12 +6,12 @@ from sqlalchemy import (create_engine, text, select, update, Column, BigInteger,
                         Text, DateTime)
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship, mapped_column, Mapped, \
     DeclarativeBase, Session
-# 和 1.x API 不同，2.0 API 中不再使用 query，而是使用 select 来查询数据。
+# 和 1.x API 不同，sqlalchemy2.0 API 中不再使用 query，而是使用 select 来查询数据。
 from sqlalchemy import create_engine, text, select, update
 
 DATABASE_URL = "mysql+mysqlconnector://jiaxiaopeng:admin1234@localhost/my3?charset=utf8mb4"
 
-# # 创建一个 SQLite 的内存数据库，必须加上 check_same_thread=False，否则无法在多线程中使用
+# 创建一个 SQLite 的内存数据库，必须加上 check_same_thread=False，否则无法在多线程中使用
 engine = create_engine("sqlite:///:memory:", echo=True, future=True,
                        connect_args={"check_same_thread": False})
 # 创建数据库引擎，添加连接池配置
@@ -28,7 +28,6 @@ engine = create_engine(
 # 还可以使用 sessionmaker 来创建一个工厂函数，这样就不用每次都输入参数了
 new_session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-
 # 调用 create_all 创建所有表
 # Base.metadata.create_all(engine)
 # 如果只需要创建一个表
@@ -38,8 +37,7 @@ new_session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 class Base(DeclarativeBase):
     pass
 
-
-# 顶一个数据库用户表
+# 定义一个数据库用户orm映射类和表
 class User(Base):
     __tablename__ = 'users'
     # 必须是 tuple，不能是 list，闲得慌……
@@ -62,7 +60,7 @@ class User(Base):
     def __repr__(self):
         return f"<User(id={self.id}, name='{self.name}', fullname='{self.fullname}')>"
 
-
+# 定义一个地址orm映射类和表
 class Address(Base):
     __tablename__ = "address"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
