@@ -7,13 +7,14 @@ from sqlalchemy import (create_engine, text, select, update, Column, BigInteger,
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship, mapped_column, Mapped, \
     DeclarativeBase, Session
 # 和 1.x API 不同，sqlalchemy2.0 API 中不再使用 query，而是使用 select 来查询数据。
-from sqlalchemy import create_engine, text, select, update
+from sqlalchemy import create_engine, text, select, update,Engine
 
 DATABASE_URL = "mysql+mysqlconnector://jiaxiaopeng:admin1234@localhost/my3?charset=utf8mb4"
 
 # 创建一个 SQLite 的内存数据库，必须加上 check_same_thread=False，否则无法在多线程中使用
-engine = create_engine("sqlite:///:memory:", echo=True, future=True,
-                       connect_args={"check_same_thread": False})
+# engine = create_engine("sqlite:///:memory:", echo=True, future=True,
+#                        connect_args={"check_same_thread": False})
+
 # 创建数据库引擎，添加连接池配置
 engine = create_engine(
     DATABASE_URL,
