@@ -65,19 +65,15 @@ import json
 
 
 # 路由：获取所有用户
-@app.get("/users/")
+@app.get("/users/", response_model=list[Users])
 def read_users():
     with new_session() as s:
         execute = s.execute(select(Users))
         execute_all: list[Users] = execute.all()
         print(execute_all)
         print(type(execute_all))
-        ret = [
-            user.dict()
-            for user in execute_all
-        ]
-        return {"count": 100, "data": ret}
-    return {}
+        return execute_all
+    return []
 
 
 # 路由：获取特定用户
