@@ -6,9 +6,10 @@ from fastapi.middleware.cors import CORSMiddleware
 import asyncio
 import uvicorn
 import logging
-from model import get_session, Test, engine, get_db
+from model import get_session, Test, engine
 from sqlmodel import select, Session
 
+from di import injector
 
 # 设置日志配置
 logging.basicConfig(level=logging.INFO)
@@ -25,6 +26,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from  testservice import TestService
+user_service = injector.get(TestService)
 
 @app.get("/", response_model=dict)
 def read_root():
@@ -44,13 +47,7 @@ def create_user(item: Test):
 
 @app.get("/users/", response_model=list[Test])
 def read_users():
-    with get_db() as s:
-        execute = s.exec(select(Test))
-        execute_all: list[Test] = execute.all()
-        print(execute_all)
-        print(type(execute_all))
-        return execute_all
-    return []
+    return user_service.get_all()
 
 
 # q -- 是查询参数，指定为字符串类型或空（None）

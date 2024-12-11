@@ -12,13 +12,6 @@ def get_session():
     with Session(engine) as session:
         yield session
 
-@contextmanager
-def get_db():
-    db = Session(engine)
-    try:
-        yield db
-    finally:
-        db.close()
 
 class Base(SQLModel, table=False):
     aid: int = Field(default=None, primary_key=True)
