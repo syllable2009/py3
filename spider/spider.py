@@ -28,24 +28,33 @@ class Spider:
 
     @classmethod
     def get_page_content(cls, url, screenshot: bool = False, path: str = None):
-        with Spider.get_new_page() as page:
-            page.goto(url, wait_until='load')
-            if screenshot and path is not None:
-                page.screenshot(path=path)
-            return page.content()
+        try:
+            with Spider.get_new_page() as page:
+                page.goto(url, wait_until='load')
+                if screenshot and path is not None:
+                    page.screenshot(path=path)
+                return page.content()
+        except Exception as e:
+            print(f'下载图片失败: {e.message}')
+        finally:
+            page.close()
 
     @classmethod
     def download_picture(cls, url: str, path: str):
-        with Spider.get_new_page() as page:
-            response: Response = page.goto(url, wait_until='networkidle')
-            if_image_request: bool = if_picture_request(response)
-            if if_image_request:
-                with open(path, 'wb') as f:
-                    f.write(response.body())
-                print(f"下载的文件保存为: {path}")
-            else:
-                print(f"非图片响应，下载操作被忽略: {url}")
-
+        try:
+            with Spider.get_new_page() as page:
+                response: Response = page.goto(url, wait_until='networkidle')
+                if_image_request: bool = if_picture_request(response)
+                if if_image_request:
+                    with open(path, 'wb') as f:
+                        f.write(response.body())
+                    print(f"下载图片保存为: {path}")
+                else:
+                    print(f"非图片响应，下载操作被忽略: {url}")
+        except Exception as e:
+            print(f'下载图片失败: {e.message}')
+        finally:
+            page.close()
 
     # 你不能直接下载流，因为浏览器跳转会中断，goto时报错
     def click_download_file(self, url: str, click: str, path: str):
@@ -60,10 +69,12 @@ class Spider:
                 print(f"即将下载文件from:{download.url}")  # 获取下载的url地址
                 # 这一步只是下载下来，生成一个随机uuid值保存，代码执行完会自动清除
                 print(f"下载临时文件to:{download.path()}")
-                print(f"下载文件保存到:{path}")
+                print(f"下载文件保存为:{path}")
                 download.save_as(path)
         except Exception as e:
-            print(f'下载失败: {e.message}')
+            print(f'下载文件失败: {e.message}')
+        finally:
+            page.close()
 
     @classmethod
     def close(cls):
@@ -91,8 +102,8 @@ if __name__ == "__main__":
     img_url = ("https://assets.lummi.ai/assets/QmSGPMnVZ2wvdUNmUpf2pG4poiR3AUShaCAnxiE2DLXAUx?auto"
                "=format&w=1500")
     PATH = '/Users/jiaxiaopeng/at/'
-    # spider.download_picture(img_url, PATH + str(uuid.uuid1()) + '.png')
+    spider.download_picture(img_url, PATH + str(uuid.uuid1()) + '.png')
     page_url = "https://pypi.org/project/pytest/#files"
-    file_url = "https://files.pythonhosted.org/packages/05/35/30e0d83068951d90a01852cb1cef56e5d8a09d20c7f511634cc2f7e0372a/pytest-8.3.4.tar.gz"
-    spider.click_download_file(page_url,'text=pytest-8.3.4.tar.gz', PATH + str(uuid.uuid1()) + '.tar.gz')
+    spider.click_download_file(page_url, 'text=pytest-8.3.4.tar.gz',
+                               PATH + str(uuid.uuid1()) + '.tar.gz')
     # page = spider.get_new_page()
