@@ -76,8 +76,6 @@ def print_title(content: str):
 
 # lxml提供etree模块，专门用来解析html和xml
 from lxml import etree
-
-
 def parseByXpath(content: str, xpath: str):
     if content.strip() != '':
         # 指定解析器HTMLParser会修复html缺失的信息
