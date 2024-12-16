@@ -148,7 +148,7 @@ python-dateutil==2.7.5
 python-docx==0.8.10
 python-whois==0.7.3
 pytz==2018.5
-PyYAML==5.1
+PyYAML==5.4
 pyzmq==17.1.2
 qrcode==6.0
 qrtools==0.0.2
