@@ -1,10 +1,24 @@
 from playwright.sync_api import sync_playwright, Response, Download, Page, Error, expect
 
 # 应该使用包含，有额外编码或者文件名称
-DOWNLOAD_CONTENT_TYPE = 'application/octet-stream'
+DOWNLOAD_CONTENT_TYPES = ['application/octet-stream', 'audio/mpeg', 'lrc-application/octet-stream']
 PICTURE_CONTENT_TYPES = ['image/avif', 'application/pdf', 'image/jpeg', 'image/png', 'image/gif',
                          'image/bmp', 'image/svg+xml', 'image/webp', 'image/tiff']
 DOWNLOAD_CONTENT_DISPOSITION = 'attachment'
+
+from urllib.parse import urlparse
+import os
+
+
+# 从url中解析文件名称
+def extract_filename(url: str) -> str:
+    # 解析 URL
+    parsed_url = urlparse(url)
+    # 获取路径部分
+    path = parsed_url.path
+    # 提取文件名
+    filename = os.path.basename(path)
+    return filename
 
 
 def if_contain(lst: list, e: str) -> bool:
@@ -24,7 +38,8 @@ def if_download_file(content_type, content_disposition) -> bool:
     if content_disposition is None:
         content_disposition = ''
     result = False
-    if (DOWNLOAD_CONTENT_TYPE in content_type or if_contain(PICTURE_CONTENT_TYPES, content_type)
+    if (if_contain(DOWNLOAD_CONTENT_TYPES, content_type) or if_contain(PICTURE_CONTENT_TYPES,
+                                                                       content_type)
             or DOWNLOAD_CONTENT_DISPOSITION in content_disposition.lower()):
         result = True
     print(
@@ -84,16 +99,17 @@ def on_response(response: Response) -> None:
     content_type = response.headers.get("content-type", "''")
     # 监听所有响应的状态码和链接
     # print(f'Statue {response.status}: {response.url}')
-    if (DOWNLOAD_CONTENT_TYPE in content_type.lower() or
+    if (if_contain(DOWNLOAD_CONTENT_TYPES, content_type) and
             DOWNLOAD_CONTENT_DISPOSITION in content_disposition.lower()):
-        print(f"PW on_response work，找到可下载文件，url:{response.url},{content_type}"
+        print(f"PW on_response work，找到可下载文件，url:{response.url}，{content_type}"
               f",{content_disposition}")
         # print(response.headers)
         # print(response.request.headers)
 
 
 def on_download(download: Download) -> None:
-    print(f'PW on_download work，触发下载，url:{download.url}，file_name:{download.suggested_filename}')
+    print(
+        f'PW on_download work，触发下载，url:{download.url}，file_name:{download.suggested_filename}')
 
 
 class Spider:

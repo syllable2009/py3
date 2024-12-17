@@ -93,7 +93,7 @@ page.get_by_test_id("directions") <button data-testid="directions">Itinéraire</
 page.locator("xpath=//button").click()
 page.locator("//*[@id="tsf"]")
 
-# css
+# css #id .class
 page.locator("css=button").click()
 page.locator(".css_name")
 
