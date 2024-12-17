@@ -1,4 +1,4 @@
-from playwright.sync_api import sync_playwright, Response, Download, Page, Error
+from playwright.sync_api import sync_playwright, Response, Download, Page, Error, expect
 
 # 应该使用包含，有额外编码或者文件名称
 DOWNLOAD_CONTENT_TYPE = 'application/octet-stream'
@@ -99,6 +99,7 @@ def on_download(download: Download) -> None:
 class Spider:
     # 全局静态对象
     playwright = sync_playwright().start()
+    # playwright.selectors.set_test_id_attribute('')
     browser = playwright.chromium.launch(headless=False, slow_mo=50)
 
     @classmethod
@@ -113,6 +114,8 @@ class Spider:
         # 打开页面才能触发监听，即第一次goto无法获得
         page.on('download', lambda download: on_download(download))
         page.on('response', lambda response: on_response(response))
+        # Web 中的对话框是模态框，因此会阻止进一步的页面执行，直到处理完毕
+        page.on("dialog", lambda dialog: dialog.accept())
         return page
 
     # 记得关闭
