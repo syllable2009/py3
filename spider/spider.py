@@ -1,8 +1,43 @@
 from playwright.sync_api import sync_playwright, Response, Download, Page, Error
 
+# 应该使用包含，有额外编码或者文件名称
 DOWNLOAD_CONTENT_TYPE = 'application/octet-stream'
-PICTURE_CONTENT_TYPES = ['image/avif']
-DOWNLOAD_CONTENT_DISPOSITION = []
+PICTURE_CONTENT_TYPES = ['image/avif', 'application/pdf', 'image/jpeg', 'image/png', 'image/gif',
+                         'image/bmp', 'image/svg+xml', 'image/webp', 'image/tiff']
+DOWNLOAD_CONTENT_DISPOSITION = ['attachment']
+
+# 利用requests开启可下载文件
+import requests
+
+
+def requests_download_file(url: str, path: str):
+    try:
+        print(f'wget开始下载: {url}')
+        response = requests.get(url)
+        if response.status_code == 200 and if_download(response.headers.get('Content-Type', '""'),
+                                                       response.headers.get('Content-Disposition',
+                                                                            '""')):
+            with open(path, 'wb') as file:
+                file.write(response.content)
+            print(f'下载完成: {path} from {url}')
+        else:
+            print(f'下载失败，状态码或文件类型不支持下载，状态码: {response.status_code}')
+    except Exception as e:
+        print(f'下载失败，url:{url}，{e}')
+
+
+# 利用wget强制开启下载文件
+import wget
+
+
+def wget_download_file(url: str, path: str):
+    try:
+        print(f'wget开始下载: {url}')
+        # 下载文件
+        file_name = wget.download(url, out=path)
+        print(f'下载完成: {file_name} from {url}')
+    except Exception as e:
+        print(f'下载失败，url:{url}，{e}')
 
 
 class Spider:
@@ -72,7 +107,7 @@ class Spider:
                 print(f"下载文件保存为:{path}")
                 download.save_as(path)
         except Exception as e:
-            print(f'下载文件失败: {e.message}')
+            print(f'下载文件失败，url:{download.url}, {e.message}')
         finally:
             page.close()
 
@@ -84,14 +119,32 @@ class Spider:
             cls.playwright.stop()
 
 
-def if_picture_request(response: Response):
-    content_type = response.headers.get("content-type", "''")
-    content_disposition = response.headers.get("content-disposition", "''")
+def if_contain(lst: list, e: str) -> bool:
+    if e is None:
+        return False
+    lower = e.lower()
+    for l in lst:
+        if lower in l:
+            return True
+    return False
+
+
+def if_download(content_type, content_disposition) -> bool:
     result = False
-    if content_type in PICTURE_CONTENT_TYPES or content_disposition in DOWNLOAD_CONTENT_DISPOSITION:
+    if (DOWNLOAD_CONTENT_TYPE in content_type or if_contain(PICTURE_CONTENT_TYPES, content_type)
+            or if_contain(DOWNLOAD_CONTENT_DISPOSITION, content_disposition)):
         result = True
-    print(f"图片响应检测结果:{result}，content_type:{content_type}，content_disposition"
-          f":{content_disposition}，{response.url}")
+    print(
+        f"下载文件检测结果:{result}，content_type:{content_type}，content_disposition:{content_disposition}")
+    return result
+
+
+def if_picture_request(response: Response) -> bool:
+    content_type = response.headers.get("content-type", "''")
+    result = False
+    if if_contain(PICTURE_CONTENT_TYPES, content_type):
+        result = True
+    print(f"图片响应检测结果:{result}，content_type:{content_type}，url:{response.url}")
     return result
 
 
@@ -106,4 +159,5 @@ if __name__ == "__main__":
     page_url = "https://pypi.org/project/pytest/#files"
     spider.click_download_file(page_url, 'text=pytest-8.3.4.tar.gz',
                                PATH + str(uuid.uuid1()) + '.tar.gz')
-    # page = spider.get_new_page()
+    download_url = 'https://files.pythonhosted.org/packages/05/35/30e0d83068951d90a01852cb1cef56e5d8a09d20c7f511634cc2f7e0372a/pytest-8.3.4.tar.gz'
+    requests_download_file(download_url, PATH + str(uuid.uuid1()) + '.tar.gz')

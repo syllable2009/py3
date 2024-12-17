@@ -167,36 +167,7 @@ def download_ex_2(page):
     print(f"完成")
 
 
-# 利用requests下载文件
-import requests
 
-
-def requests_download_file(url: str, path: str):
-    try:
-        print(f'wget开始下载: {url}')
-        response = requests.get(url)
-        if response.status_code == 200:
-            with open(path, 'wb') as file:
-                file.write(response.content)
-            print(f'下载完成: {path}')
-        else:
-            print(f'下载失败，状态码: {response.status_code}')
-    except Exception as e:
-        print(f'下载失败: {e}')
-
-
-# 利用wget下载文件
-import wget
-
-
-def wget_download_file(url: str, path: str):
-    try:
-        print(f'wget开始下载: {url}')
-        # 下载文件
-        file_name = wget.download(url, out=path)
-        print(f'下载完成: {file_name}')
-    except Exception as e:
-        print(f'下载失败: {e}')
 
 
 def handle_download_file(download: Download):
