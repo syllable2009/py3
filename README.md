@@ -1,5 +1,6 @@
 # python3
-
+# 安装浏览器的二进制文件
+# python3 -m playwright install
 
 # asyncio
 asyncio是一种使用单线程单进程的的方式实现并发的工具。
