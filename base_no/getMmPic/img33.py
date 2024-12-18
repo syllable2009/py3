@@ -4,7 +4,7 @@ import time
 import datetime
 # sys.path.append("/Users/jiaxiaopeng/git/py3/base/")
 # pprint.pprint(sys.path)
-from base import mydbutils1
+from base_no import mydbutils1
 import urllib.request
 
 
