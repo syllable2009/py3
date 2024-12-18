@@ -16,6 +16,6 @@ COPY app ./app
 EXPOSE 8000
 
 # docker build -t fast:1.2 .
-# docker run -d --name fast2 -p 8082:8000 --restart unless-stopped fast:1.2
+# docker run -d --name fast3 -p 8082:8000 --restart unless-stopped fast:1.3
 # 运行 FastAPI 应用后访问http://localhost:8000/redoc或http://localhost:8000/docs
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

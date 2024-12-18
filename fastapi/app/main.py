@@ -3,7 +3,6 @@ from fastapi import FastAPI, Depends, Header, Cookie, HTTPException, Query, Requ
 from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 # 异步
-import asyncio
 import uvicorn
 # 导入了 Union 类型，用于支持多种数据类型的参数注解
 from typing import Union
@@ -112,10 +111,15 @@ async def create_file(file: UploadFile = File(...)):
     return {"filename": file.filename}
 
 
+from spider import main
+import uuid
+
+
 @app.get("/download")
-def download():
+async def download():
     # 使用 HTTPException 抛出异常，返回自定义的状态码和详细信息。
-    return {"status": 0}
+    text = await main()
+    return {"status": 0, "text": text}
 
 
 if __name__ == '__main__':
