@@ -1,4 +1,5 @@
-from fastapi import FastAPI,Depends, Header, Cookie, HTTPException, Query, Request, Response, Form, File, UploadFile
+from fastapi import FastAPI, Depends, Header, Cookie, HTTPException, Query, Request, Response, Form, \
+    File, UploadFile
 from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 # 异步
@@ -26,6 +27,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # 请求和响应日志中间件
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
@@ -37,6 +39,7 @@ async def log_requests(request: Request, call_next):
     logger.info(f"Response: {response.status_code}")
     return response
 
+
 # 借助 Pydantic 来使用标准的 Python 类型声明请求体。字段的类型可以是任何有效的 Python 类型，也可以是 Pydantic 内置的类型。
 class Item(BaseModel):
     id: int = None
@@ -44,10 +47,12 @@ class Item(BaseModel):
     price: float
     is_offer: Union[bool, None] = None
 
+
 class Blog(BaseModel):
     name: str = Field(..., title="Item Name", max_length=100)
     description: str = Field(None, title="Item Description", max_length=255)
     price: float = Field(..., title="Item Price", gt=0)
+
 
 @app.get("/")
 def read_root():
@@ -95,14 +100,23 @@ def self(item_id: int = 999):
     # 使用 JSONResponse 自定义响应头
     return JSONResponse(content=content, headers=headers)
 
+
 @app.post("/login/")
 async def login(username: str = Form(), password: str = Form()):
     return {"username": username}
+
 
 # 路由操作函数
 @app.post("/files/")
 async def create_file(file: UploadFile = File(...)):
     return {"filename": file.filename}
 
+
+@app.get("/download")
+def download():
+    # 使用 HTTPException 抛出异常，返回自定义的状态码和详细信息。
+    return {"status": 0}
+
+
 if __name__ == '__main__':
-    uvicorn.run(app, host="127.0.0.1", port=8001)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
