@@ -110,15 +110,20 @@ async def login(username: str = Form(), password: str = Form()):
 async def create_file(file: UploadFile = File(...)):
     return {"filename": file.filename}
 
-
-from spider import main
 import uuid
 
 
 @app.get("/download")
 async def download():
+    from spider import Spider
+    ss = Spider()
+    img_url = ("https://assets.lummi.ai/assets/QmSGPMnVZ2wvdUNmUpf2pG4poiR3AUShaCAnxiE2DLXAUx?auto"
+               "=format&w=1500")
+    PATH = '/Users/jiaxiaopeng/at/'
+    ss.download_picture(img_url, PATH + str(uuid.uuid1()) + '.png')
     # 使用 HTTPException 抛出异常，返回自定义的状态码和详细信息。
-    text = await main()
+    ss.close()
+    text = ''
     return {"status": 0, "text": text}
 
 
