@@ -1,10 +1,11 @@
-from app.impl.voa.core import VOACrawler
 from app.base.abstract_crawler import AbstractCrawler
+from app.impl import VOACrawler, LummiCrawler
+
 
 class CrawlerFactory:
     CRAWLERS = {
         "voa": VOACrawler,
-        "dy": VOACrawler,
+        "lummi": LummiCrawler,
         "ks": VOACrawler,
         "bili": VOACrawler,
         "wb": VOACrawler,
@@ -16,5 +17,6 @@ class CrawlerFactory:
     def create_crawler(platform: str) -> AbstractCrawler:
         crawler_class = CrawlerFactory.CRAWLERS.get(platform)
         if not crawler_class:
-            raise ValueError("Invalid Media Platform Currently only supported xhs or dy or ks or bili ...")
+            raise ValueError(
+                "Invalid Media Platform Currently only supported xhs or dy or ks or bili ...")
         return crawler_class()
