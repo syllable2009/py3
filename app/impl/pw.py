@@ -1,4 +1,5 @@
-from playwright.async_api import BrowserContext, BrowserType, Page, async_playwright, Playwright
+from playwright.async_api import BrowserContext, BrowserType, Page, async_playwright, Playwright, \
+    expect
 from playwright._impl._api_structures import SetCookieParam, Cookie
 from typing import Any, Dict, List, Literal, Optional, Sequence, TypedDict, Union
 import os
@@ -43,9 +44,11 @@ class ChromeBrowser:
             user_agent: Optional[str],
             headless: bool = True,
     ) -> BrowserContext:
-        browser = await chromium.launch(headless=headless, proxy=playwright_proxy)  # type: ignore
+        browser = await chromium.launch(headless=headless, proxy=playwright_proxy,
+                                        slow_mo=50)  # type: ignore
+        # viewport={"width": 1920, "height": 1080},
         browser_context = await browser.new_context(
-            viewport={"width": 1920, "height": 1080}, user_agent=user_agent
+            user_agent=user_agent, locale='zh-CN'
         )
         return browser_context
 

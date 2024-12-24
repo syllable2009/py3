@@ -11,3 +11,4 @@
 from .voa.core import VOACrawler
 from .lummi.core import LummiCrawler
 from .pw import ChromeBrowser
+from .erupt.core import EruptCrawler

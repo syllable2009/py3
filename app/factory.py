@@ -1,11 +1,12 @@
 from app.base.abstract_crawler import AbstractCrawler
-from app.impl import VOACrawler, LummiCrawler
+from app.impl import VOACrawler, LummiCrawler, EruptCrawler
 
 
 class CrawlerFactory:
     CRAWLERS = {
         "voa": VOACrawler,
         "lummi": LummiCrawler,
+        "erupt": EruptCrawler,
         "ks": VOACrawler,
         "bili": VOACrawler,
         "wb": VOACrawler,
