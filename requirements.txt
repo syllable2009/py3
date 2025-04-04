@@ -96,7 +96,7 @@ msgpack==0.6.0
 multidict==4.3.1
 MyQR==2.3.1
 mysql-connector==2.1.6
-mysql-connector-python==8.0.13
+mysql-connector-python==8.0.14
 Naked==0.1.31
 nbformat==4.4.0
 nltk==3.4
