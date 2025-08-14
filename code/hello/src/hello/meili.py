@@ -1,5 +1,4 @@
 from meilisearch import Client
-from pydantic import BaseModel
 
 # 带认证的连接（生产环境推荐）
 client = Client(
