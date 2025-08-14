@@ -19,6 +19,8 @@ class EruptCrawler(AbstractCrawler):
         self.path = '/Users/jiaxiaopeng/at/'
         # self.user_agent = utils.get_user_agent()
         self.user_agent = config.UA if config.UA else "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+        # self.search_term_input = EruptCrawler.chrome.get_new_page().locator('[aria-label="Enter your search '
+        #                                                       'term"]')
 
     async def start(self):
         async with await ChromeBrowser.get_new_page() as page:

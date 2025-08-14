@@ -1,4 +1,6 @@
 /target/
+/venv/
+.venv
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
