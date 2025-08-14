@@ -4,14 +4,16 @@ from meili import index
 from pydantic import BaseModel
 from fastapi.encoders import jsonable_encoder
 import json
+import uuid
 from typing import Optional
+
 
 class Item(BaseModel):
     uid: Optional[str] = None
     name: Optional[str] = None
     category: Optional[str] = None
     url: Optional[str] = None
-    price: Optional[str] = 0
+    price: Optional[float] = 0
     is_offer: Optional[bool] = None
 
 
@@ -43,6 +45,13 @@ def read_item(q: str = None):
 @router.post("/add", response_model=Item)
 @app.post("/add", response_model=Item)
 def create_or_update(item: Item):
+    # 字段是否为空或空字符串
+    if not item.uid:
+        item.uid = uuid.uuid4().hex
+        index.add_documents(item.model_dump())
+    else:
+        index.update_documents(item.model_dump())
+    print(item.model_dump())
     return item
 
 
